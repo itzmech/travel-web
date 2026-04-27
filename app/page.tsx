@@ -1,4 +1,13 @@
 import Link from "next/link";
+import dynamic from "next/dynamic";
+
+const HeroEarthBackground = dynamic(
+  () =>
+    import("@/components/hero-earth-background").then(
+      (mod) => mod.HeroEarthBackground
+    ),
+  { ssr: false }
+);
 
 const features = [
   {
@@ -18,13 +27,17 @@ const features = [
 export default function Home() {
   return (
     <main className="relative min-h-screen overflow-hidden bg-[#07090f] text-white">
+      <div className="pointer-events-none absolute -right-24 top-1/2 z-0 h-[34rem] w-[34rem] -translate-y-1/2 opacity-70 md:h-[42rem] md:w-[42rem]">
+        <HeroEarthBackground />
+      </div>
+
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute -left-28 top-24 h-72 w-72 rounded-full bg-cyan-500/20 blur-3xl" />
         <div className="absolute right-0 top-0 h-[24rem] w-[24rem] rounded-full bg-indigo-500/20 blur-3xl" />
         <div className="absolute bottom-0 left-1/3 h-64 w-64 rounded-full bg-violet-500/20 blur-3xl" />
       </div>
 
-      <div className="relative mx-auto flex min-h-screen max-w-6xl flex-col px-6 py-6 md:px-10">
+      <div className="relative z-10 mx-auto flex min-h-screen max-w-6xl flex-col px-6 py-6 md:px-10">
         <header className="flex items-center justify-between py-2">
           <div className="text-lg font-semibold tracking-wide text-white/90">
             TripNova
