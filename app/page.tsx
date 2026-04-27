@@ -84,7 +84,7 @@ export default function Home() {
       </div>
 
       <div className="pointer-events-none fixed inset-0 z-0 flex items-center justify-center opacity-90">
-        <div className="h-[74vmin] w-[74vmin] min-h-[400px] min-w-[400px] max-h-[820px] max-w-[820px]">
+        <div className="h-[72vmin] w-[72vmin] min-h-[380px] min-w-[380px] max-h-[760px] max-w-[760px]">
           <HeroEarthBackground />
         </div>
       </div>
@@ -95,7 +95,7 @@ export default function Home() {
         <div className="absolute bottom-0 left-1/3 h-64 w-64 rounded-full bg-violet-500/20 blur-3xl" />
       </div>
 
-      <div className="relative z-10 mx-auto flex min-h-screen max-w-6xl flex-col px-6 py-6 opacity-85 md:px-10">
+      <div className="relative z-10 mx-auto flex min-h-screen max-w-6xl flex-col px-6 py-6 opacity-[0.96] md:px-10">
         <header className="flex items-center justify-between py-2">
           <div className="text-3xl font-extrabold tracking-wide text-yellow-300 md:text-4xl">
             TripNova
