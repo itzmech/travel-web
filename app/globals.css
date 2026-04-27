@@ -123,3 +123,62 @@
     @apply bg-background text-foreground;
   }
 }
+
+.space-stars {
+  background-image:
+    radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.28) 0.5px, transparent 1.2px),
+    radial-gradient(circle at 25% 70%, rgba(255, 255, 255, 0.24) 0.6px, transparent 1.4px),
+    radial-gradient(circle at 55% 38%, rgba(255, 255, 255, 0.2) 0.6px, transparent 1.3px),
+    radial-gradient(circle at 72% 18%, rgba(255, 255, 255, 0.25) 0.6px, transparent 1.3px),
+    radial-gradient(circle at 84% 62%, rgba(255, 255, 255, 0.18) 0.7px, transparent 1.6px),
+    radial-gradient(circle at 32% 12%, rgba(255, 255, 255, 0.2) 0.5px, transparent 1.1px),
+    radial-gradient(circle at 65% 82%, rgba(255, 255, 255, 0.18) 0.6px, transparent 1.4px);
+  background-size: 100% 100%;
+  opacity: 0.55;
+  animation: twinkle 10s ease-in-out infinite alternate;
+}
+
+.shooting-star {
+  position: absolute;
+  width: 120px;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 243, 185, 0.95) 0%,
+    rgba(255, 240, 170, 0.45) 45%,
+    rgba(255, 240, 170, 0) 100%
+  );
+  filter: drop-shadow(0 0 6px rgba(255, 231, 145, 0.35));
+  transform: rotate(-20deg) translateX(-140px);
+  opacity: 0;
+  animation-name: shooting-star;
+  animation-timing-function: ease-out;
+  animation-iteration-count: infinite;
+}
+
+@keyframes twinkle {
+  0% {
+    opacity: 0.45;
+  }
+  100% {
+    opacity: 0.68;
+  }
+}
+
+@keyframes shooting-star {
+  0% {
+    transform: rotate(-20deg) translateX(-140px);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.9;
+  }
+  32% {
+    transform: rotate(-20deg) translateX(220px);
+    opacity: 0;
+  }
+  100% {
+    transform: rotate(-20deg) translateX(220px);
+    opacity: 0;
+  }
+}

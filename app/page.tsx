@@ -56,29 +56,50 @@ const reviews = [
   },
 ];
 
+const shootingStars = [
+  { top: "14%", left: "8%", delay: "0s", duration: "5.5s" },
+  { top: "22%", left: "58%", delay: "1.4s", duration: "6.2s" },
+  { top: "36%", left: "28%", delay: "2.1s", duration: "5.8s" },
+  { top: "48%", left: "72%", delay: "3.3s", duration: "6.8s" },
+  { top: "62%", left: "16%", delay: "0.9s", duration: "6.4s" },
+];
+
 export default function Home() {
   return (
-    <main className="relative min-h-screen overflow-hidden bg-[#07090f] text-white">
-      <div className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center opacity-85">
-        <div className="h-[75vmin] w-[75vmin] min-h-[360px] min-w-[360px] max-h-[860px] max-w-[860px]">
+    <main className="relative min-h-screen overflow-x-hidden bg-[#07090f] text-white">
+      <div className="space-stars pointer-events-none fixed inset-0 z-0" />
+      <div className="pointer-events-none fixed inset-0 z-0">
+        {shootingStars.map((star) => (
+          <span
+            key={`${star.top}-${star.left}`}
+            className="shooting-star"
+            style={{
+              top: star.top,
+              left: star.left,
+              animationDelay: star.delay,
+              animationDuration: star.duration,
+            }}
+          />
+        ))}
+      </div>
+
+      <div className="pointer-events-none fixed inset-0 z-0 flex items-center justify-center opacity-90">
+        <div className="h-[70vmin] w-[70vmin] min-h-[360px] min-w-[360px] max-h-[780px] max-w-[780px]">
           <HeroEarthBackground />
         </div>
       </div>
 
-      <div className="pointer-events-none absolute inset-0">
+      <div className="pointer-events-none fixed inset-0">
         <div className="absolute -left-28 top-24 h-72 w-72 rounded-full bg-cyan-500/20 blur-3xl" />
         <div className="absolute right-0 top-0 h-[24rem] w-[24rem] rounded-full bg-indigo-500/20 blur-3xl" />
         <div className="absolute bottom-0 left-1/3 h-64 w-64 rounded-full bg-violet-500/20 blur-3xl" />
       </div>
 
-      <div className="relative z-10 mx-auto flex min-h-screen max-w-6xl flex-col px-6 py-6 opacity-90 md:px-10">
+      <div className="relative z-10 mx-auto flex min-h-screen max-w-6xl flex-col px-6 py-6 opacity-85 md:px-10">
         <header className="flex items-center justify-between py-2">
           <div className="text-lg font-semibold tracking-wide text-white/90">
             TripNova
           </div>
-          <span className="hidden rounded-full border border-yellow-300/40 bg-yellow-300/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-yellow-200 md:inline-flex">
-            Live Updated
-          </span>
           <div className="flex items-center gap-3">
             <a
               href="#about"
@@ -131,7 +152,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="rounded-3xl border border-white/10 bg-white/[0.02] p-6 shadow-2xl shadow-black/30 backdrop-blur">
+          <div className="rounded-3xl border border-white/10 bg-white/[0.01] p-6 shadow-2xl shadow-black/30 backdrop-blur">
             <div className="mb-4 text-sm font-medium text-cyan-200">
               Why teams choose TripNova
             </div>
@@ -139,7 +160,7 @@ export default function Home() {
               {features.map((feature) => (
                 <article
                   key={feature.title}
-                  className="rounded-2xl border border-white/10 bg-black/20 p-4"
+                  className="rounded-2xl border border-white/10 bg-black/15 p-4"
                 >
                   <h2 className="text-base font-semibold">{feature.title}</h2>
                   <p className="mt-2 text-sm text-white/65">
@@ -164,7 +185,7 @@ export default function Home() {
             {popularPlaces.map((place) => (
               <article
                 key={place.name}
-                className="rounded-2xl border border-white/10 bg-black/20 p-5 backdrop-blur"
+                className="rounded-2xl border border-white/10 bg-black/15 p-5 backdrop-blur"
               >
                 <h3 className="text-base font-semibold text-white">{place.name}</h3>
                 <p className="mt-2 text-sm text-white/65">{place.blurb}</p>
@@ -186,7 +207,7 @@ export default function Home() {
             {reviews.map((review) => (
               <article
                 key={review.name}
-                className="rounded-2xl border border-white/10 bg-white/[0.04] p-5"
+                className="rounded-2xl border border-white/10 bg-white/[0.02] p-5"
               >
                 <p className="text-sm leading-6 text-white/75">"{review.quote}"</p>
                 <p className="mt-4 text-sm font-semibold text-white">{review.name}</p>
@@ -197,7 +218,7 @@ export default function Home() {
         </section>
 
         <section id="about" className="py-12 md:py-16">
-          <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6 md:p-8">
+          <div className="rounded-3xl border border-white/10 bg-white/[0.02] p-6 md:p-8">
             <p className="text-xs uppercase tracking-[0.2em] text-yellow-300/80">
               About Us
             </p>
@@ -214,7 +235,7 @@ export default function Home() {
         </section>
 
         <section id="contact" className="pb-14 pt-12 md:pb-20 md:pt-16">
-          <div className="rounded-3xl border border-white/10 bg-black/25 p-6 md:p-8">
+          <div className="rounded-3xl border border-white/10 bg-black/20 p-6 md:p-8">
             <p className="text-xs uppercase tracking-[0.2em] text-cyan-200/90">
               Contact Us
             </p>
