@@ -29,7 +29,7 @@ const features = [
 export default function Home() {
   return (
     <main className="relative min-h-screen overflow-hidden bg-[#07090f] text-white">
-      <div className="pointer-events-none absolute -right-24 top-1/2 z-0 h-[34rem] w-[34rem] -translate-y-1/2 opacity-70 md:h-[42rem] md:w-[42rem]">
+      <div className="pointer-events-none absolute -right-28 top-1/2 z-0 h-[40rem] w-[40rem] -translate-y-1/2 opacity-80 md:h-[52rem] md:w-[52rem]">
         <HeroEarthBackground />
       </div>
 
@@ -46,7 +46,7 @@ export default function Home() {
           </div>
           <Link
             href="/login"
-            className="rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-medium text-white transition hover:bg-white/20"
+            className="rounded-full border border-white/20 bg-white/[0.08] px-5 py-2 text-sm font-medium text-white transition hover:bg-white/[0.16]"
           >
             Login
           </Link>
@@ -82,7 +82,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-6 shadow-2xl shadow-black/30 backdrop-blur">
+          <div className="rounded-3xl border border-white/10 bg-white/[0.02] p-6 shadow-2xl shadow-black/30 backdrop-blur">
             <div className="mb-4 text-sm font-medium text-cyan-200">
               Why teams choose TripNova
             </div>
@@ -90,7 +90,7 @@ export default function Home() {
               {features.map((feature) => (
                 <article
                   key={feature.title}
-                  className="rounded-2xl border border-white/10 bg-black/30 p-4"
+                  className="rounded-2xl border border-white/10 bg-black/20 p-4"
                 >
                   <h2 className="text-base font-semibold">{feature.title}</h2>
                   <p className="mt-2 text-sm text-white/65">
