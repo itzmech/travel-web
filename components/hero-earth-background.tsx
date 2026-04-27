@@ -24,8 +24,10 @@ function RotatingEarth() {
         <meshStandardMaterial
           map={earthTexture}
           color="#ffffff"
+          emissive="#4f6ea8"
+          emissiveIntensity={0.2}
           metalness={0.06}
-          roughness={0.88}
+          roughness={0.8}
         />
       </Sphere>
     </group>
@@ -39,9 +41,9 @@ export function HeroEarthBackground() {
       gl={{ antialias: true, alpha: true }}
       style={{ background: "transparent" }}
     >
-      <ambientLight intensity={0.42} />
-      <directionalLight position={[4, 2, 5]} intensity={1.25} color="#ffffff" />
-      <directionalLight position={[-4, -2, -4]} intensity={0.32} color="#b5ccff" />
+      <ambientLight intensity={0.52} />
+      <directionalLight position={[4, 2, 5]} intensity={1.35} color="#ffffff" />
+      <directionalLight position={[-4, -2, -4]} intensity={0.42} color="#b5ccff" />
       <RotatingEarth />
     </Canvas>
   );
