@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 
@@ -66,8 +65,6 @@ const shootingStars = [
 ];
 
 export default function Home() {
-  const [earthView, setEarthView] = useState(false);
-
   return (
     <main className="relative min-h-screen overflow-x-hidden bg-[#07090f] text-white">
       <div className="space-stars pointer-events-none fixed inset-0 z-0" />
@@ -86,19 +83,9 @@ export default function Home() {
         ))}
       </div>
 
-      <div
-        className={`fixed inset-0 z-0 flex items-center justify-center opacity-90 ${
-          earthView ? "pointer-events-auto" : "pointer-events-none"
-        }`}
-      >
-        <div
-          className={`transition-all duration-700 ${
-            earthView
-              ? "h-[84vmin] w-[84vmin] min-h-[460px] min-w-[460px] max-h-[920px] max-w-[920px]"
-              : "h-[72vmin] w-[72vmin] min-h-[380px] min-w-[380px] max-h-[760px] max-w-[760px]"
-          }`}
-        >
-          <HeroEarthBackground interactive={earthView} zoomed={earthView} />
+      <div className="pointer-events-none fixed inset-0 z-0 flex items-center justify-center opacity-90">
+        <div className="h-[74vmin] w-[74vmin] min-h-[400px] min-w-[400px] max-h-[820px] max-w-[820px]">
+          <HeroEarthBackground />
         </div>
       </div>
 
@@ -114,12 +101,6 @@ export default function Home() {
             TripNova
           </div>
           <div className="flex items-center gap-3">
-            <button
-              onClick={() => setEarthView((prev) => !prev)}
-              className="rounded-full border border-yellow-300/40 bg-yellow-300/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-yellow-200 transition hover:bg-yellow-300/20"
-            >
-              {earthView ? "Back" : "Earth"}
-            </button>
             <a
               href="#about"
               className="hidden rounded-full border border-white/15 bg-white/[0.04] px-4 py-2 text-xs font-medium text-white/80 transition hover:bg-white/[0.12] md:inline-flex"
@@ -141,9 +122,8 @@ export default function Home() {
           </div>
         </header>
 
-        {!earthView && (
-          <>
-            <section className="grid flex-1 items-center gap-12 py-16 md:grid-cols-2 md:py-20">
+        <>
+          <section className="grid flex-1 items-center gap-12 py-16 md:grid-cols-2 md:py-20">
           <div>
             <h1 className="text-4xl font-bold leading-tight md:text-6xl">
               Plan exceptional travel with clarity and control.
@@ -171,7 +151,7 @@ export default function Home() {
           </div>
 
           <div className="rounded-3xl border border-white/10 bg-white/[0.01] p-6 shadow-2xl shadow-black/30 backdrop-blur">
-            <div className="mb-4 text-sm font-medium text-cyan-300">
+            <div className="mb-4 text-base font-semibold text-cyan-300 md:text-lg">
               Why teams choose TripNova
             </div>
             <div id="features" className="space-y-4">
@@ -180,22 +160,22 @@ export default function Home() {
                   key={feature.title}
                   className="rounded-2xl border border-white/10 bg-black/15 p-4"
                 >
-                  <h2 className="text-base font-semibold">{feature.title}</h2>
-                  <p className="mt-2 text-sm text-white/65">
+                  <h2 className="text-lg font-semibold md:text-xl">{feature.title}</h2>
+                  <p className="mt-2 text-base text-white/65">
                     {feature.description}
                   </p>
                 </article>
               ))}
             </div>
           </div>
-            </section>
+          </section>
 
-            <section id="popular-places" className="py-12 md:py-16">
+          <section id="popular-places" className="py-12 md:py-16">
           <div className="mb-6">
             <p className="text-sm uppercase tracking-[0.22em] text-cyan-300 md:text-base">
               Popular Places
             </p>
-            <h2 className="mt-2 text-2xl font-bold md:text-3xl">
+            <h2 className="mt-2 text-3xl font-bold md:text-4xl">
               Destinations people are visiting right now
             </h2>
           </div>
@@ -205,19 +185,19 @@ export default function Home() {
                 key={place.name}
                 className="rounded-2xl border border-white/10 bg-black/15 p-5 backdrop-blur"
               >
-                <h3 className="text-base font-semibold text-white">{place.name}</h3>
-                <p className="mt-2 text-sm text-white/65">{place.blurb}</p>
+                <h3 className="text-lg font-semibold text-white md:text-xl">{place.name}</h3>
+                <p className="mt-2 text-base text-white/65">{place.blurb}</p>
               </article>
             ))}
           </div>
-            </section>
+          </section>
 
-            <section id="reviews" className="py-12 md:py-16">
+          <section id="reviews" className="py-12 md:py-16">
           <div className="mb-6">
             <p className="text-sm uppercase tracking-[0.22em] text-cyan-300 md:text-base">
               Reviews
             </p>
-            <h2 className="mt-2 text-2xl font-bold md:text-3xl">
+            <h2 className="mt-2 text-3xl font-bold md:text-4xl">
               What our users say about us
             </h2>
           </div>
@@ -227,48 +207,47 @@ export default function Home() {
                 key={review.name}
                 className="rounded-2xl border border-white/10 bg-white/[0.02] p-5"
               >
-                <p className="text-sm leading-6 text-white/75">"{review.quote}"</p>
-                <p className="mt-4 text-sm font-semibold text-white">{review.name}</p>
-                <p className="text-xs text-white/55">{review.role}</p>
+                <p className="text-lg leading-8 text-white/80">"{review.quote}"</p>
+                <p className="mt-4 text-base font-semibold text-white md:text-lg">{review.name}</p>
+                <p className="text-sm text-white/55">{review.role}</p>
               </article>
             ))}
           </div>
-            </section>
+          </section>
 
-            <section id="about" className="py-12 md:py-16">
+          <section id="about" className="py-12 md:py-16">
           <div className="rounded-3xl border border-white/10 bg-white/[0.02] p-6 md:p-8">
             <p className="text-sm uppercase tracking-[0.22em] text-cyan-300 md:text-base">
               About Us
             </p>
-            <h2 className="mt-2 text-2xl font-bold md:text-3xl">
+            <h2 className="mt-2 text-3xl font-bold md:text-4xl">
               We design travel experiences around real people
             </h2>
-            <p className="mt-4 max-w-3xl text-sm leading-7 text-white/70 md:text-base">
+            <p className="mt-4 max-w-3xl text-base leading-8 text-white/70 md:text-lg">
               TripNova is built for travelers who want speed, confidence, and
               flexibility. Our mission is to simplify travel planning with
               intelligent tools and destination insights that help you decide
               faster and travel better.
             </p>
           </div>
-            </section>
+          </section>
 
-            <section id="contact" className="pb-14 pt-12 md:pb-20 md:pt-16">
+          <section id="contact" className="pb-14 pt-12 md:pb-20 md:pt-16">
           <div className="rounded-3xl border border-white/10 bg-black/20 p-6 md:p-8">
             <p className="text-sm uppercase tracking-[0.22em] text-cyan-300 md:text-base">
               Contact Us
             </p>
-            <h2 className="mt-2 text-2xl font-bold md:text-3xl">
+            <h2 className="mt-2 text-3xl font-bold md:text-4xl">
               Let&apos;s plan your next journey
             </h2>
-            <div className="mt-5 grid gap-3 text-sm text-white/75 md:grid-cols-3">
+            <div className="mt-5 grid gap-3 text-base text-white/75 md:grid-cols-3 md:text-lg">
               <p>Email: hello@tripnova.com</p>
               <p>Phone: +91 90000 11111</p>
               <p>Location: Mumbai, India</p>
             </div>
           </div>
-            </section>
-          </>
-        )}
+          </section>
+        </>
       </div>
     </main>
   );

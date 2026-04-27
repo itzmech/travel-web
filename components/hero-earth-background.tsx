@@ -2,10 +2,10 @@
 
 import { useRef } from "react";
 import { Canvas, useFrame, useLoader } from "@react-three/fiber";
-import { OrbitControls, Sphere } from "@react-three/drei";
+import { Sphere } from "@react-three/drei";
 import * as THREE from "three";
 
-function RotatingEarth({ autoRotate }: { autoRotate: boolean }) {
+function RotatingEarth() {
   const earthRef = useRef<THREE.Mesh>(null);
   const earthTexture = useLoader(
     THREE.TextureLoader,
@@ -13,7 +13,7 @@ function RotatingEarth({ autoRotate }: { autoRotate: boolean }) {
   );
 
   useFrame((_, delta) => {
-    if (earthRef.current && autoRotate) {
+    if (earthRef.current) {
       earthRef.current.rotation.y += delta * 0.096;
     }
   });
@@ -32,32 +32,17 @@ function RotatingEarth({ autoRotate }: { autoRotate: boolean }) {
   );
 }
 
-export function HeroEarthBackground({
-  interactive = false,
-  zoomed = false,
-}: {
-  interactive?: boolean;
-  zoomed?: boolean;
-}) {
+export function HeroEarthBackground() {
   return (
     <Canvas
-      camera={{ position: [0, 0, zoomed ? 2.7 : 3.1], fov: 45 }}
+      camera={{ position: [0, 0, 3], fov: 45 }}
       gl={{ antialias: true, alpha: true }}
       style={{ background: "transparent" }}
     >
-      <ambientLight intensity={0.34} />
-      <directionalLight position={[4, 2, 5]} intensity={1.1} color="#ffffff" />
-      <directionalLight position={[-4, -2, -4]} intensity={0.26} color="#9bbcff" />
-      <RotatingEarth autoRotate={!interactive} />
-      {interactive && (
-        <OrbitControls
-          enablePan={false}
-          enableZoom={false}
-          rotateSpeed={0.65}
-          enableDamping
-          dampingFactor={0.06}
-        />
-      )}
+      <ambientLight intensity={0.42} />
+      <directionalLight position={[4, 2, 5]} intensity={1.25} color="#ffffff" />
+      <directionalLight position={[-4, -2, -4]} intensity={0.32} color="#b5ccff" />
+      <RotatingEarth />
     </Canvas>
   );
 }
