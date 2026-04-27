@@ -94,8 +94,8 @@ export default function Home() {
         <div
           className={`transition-all duration-700 ${
             earthView
-              ? "h-[92vmin] w-[92vmin] min-h-[520px] min-w-[520px] max-h-[1100px] max-w-[1100px]"
-              : "h-[80vmin] w-[80vmin] min-h-[420px] min-w-[420px] max-h-[920px] max-w-[920px]"
+              ? "h-[84vmin] w-[84vmin] min-h-[460px] min-w-[460px] max-h-[920px] max-w-[920px]"
+              : "h-[72vmin] w-[72vmin] min-h-[380px] min-w-[380px] max-h-[760px] max-w-[760px]"
           }`}
         >
           <HeroEarthBackground interactive={earthView} zoomed={earthView} />
@@ -110,7 +110,7 @@ export default function Home() {
 
       <div className="relative z-10 mx-auto flex min-h-screen max-w-6xl flex-col px-6 py-6 opacity-85 md:px-10">
         <header className="flex items-center justify-between py-2">
-          <div className="text-2xl font-extrabold tracking-wide text-yellow-300">
+          <div className="text-3xl font-extrabold tracking-wide text-yellow-300 md:text-4xl">
             TripNova
           </div>
           <div className="flex items-center gap-3">
@@ -192,7 +192,7 @@ export default function Home() {
 
             <section id="popular-places" className="py-12 md:py-16">
           <div className="mb-6">
-            <p className="text-xs uppercase tracking-[0.2em] text-cyan-300">
+            <p className="text-sm uppercase tracking-[0.22em] text-cyan-300 md:text-base">
               Popular Places
             </p>
             <h2 className="mt-2 text-2xl font-bold md:text-3xl">
@@ -214,7 +214,7 @@ export default function Home() {
 
             <section id="reviews" className="py-12 md:py-16">
           <div className="mb-6">
-            <p className="text-xs uppercase tracking-[0.2em] text-cyan-300">
+            <p className="text-sm uppercase tracking-[0.22em] text-cyan-300 md:text-base">
               Reviews
             </p>
             <h2 className="mt-2 text-2xl font-bold md:text-3xl">
@@ -237,7 +237,7 @@ export default function Home() {
 
             <section id="about" className="py-12 md:py-16">
           <div className="rounded-3xl border border-white/10 bg-white/[0.02] p-6 md:p-8">
-            <p className="text-xs uppercase tracking-[0.2em] text-cyan-300">
+            <p className="text-sm uppercase tracking-[0.22em] text-cyan-300 md:text-base">
               About Us
             </p>
             <h2 className="mt-2 text-2xl font-bold md:text-3xl">
@@ -254,7 +254,7 @@ export default function Home() {
 
             <section id="contact" className="pb-14 pt-12 md:pb-20 md:pt-16">
           <div className="rounded-3xl border border-white/10 bg-black/20 p-6 md:p-8">
-            <p className="text-xs uppercase tracking-[0.2em] text-cyan-300">
+            <p className="text-sm uppercase tracking-[0.22em] text-cyan-300 md:text-base">
               Contact Us
             </p>
             <h2 className="mt-2 text-2xl font-bold md:text-3xl">
