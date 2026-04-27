@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 
@@ -65,6 +66,8 @@ const shootingStars = [
 ];
 
 export default function Home() {
+  const [earthView, setEarthView] = useState(false);
+
   return (
     <main className="relative min-h-screen overflow-x-hidden bg-[#07090f] text-white">
       <div className="space-stars pointer-events-none fixed inset-0 z-0" />
@@ -83,9 +86,19 @@ export default function Home() {
         ))}
       </div>
 
-      <div className="pointer-events-none fixed inset-0 z-0 flex items-center justify-center opacity-90">
-        <div className="h-[70vmin] w-[70vmin] min-h-[360px] min-w-[360px] max-h-[780px] max-w-[780px]">
-          <HeroEarthBackground />
+      <div
+        className={`fixed inset-0 z-0 flex items-center justify-center opacity-90 ${
+          earthView ? "pointer-events-auto" : "pointer-events-none"
+        }`}
+      >
+        <div
+          className={`transition-all duration-700 ${
+            earthView
+              ? "h-[92vmin] w-[92vmin] min-h-[520px] min-w-[520px] max-h-[1100px] max-w-[1100px]"
+              : "h-[80vmin] w-[80vmin] min-h-[420px] min-w-[420px] max-h-[920px] max-w-[920px]"
+          }`}
+        >
+          <HeroEarthBackground interactive={earthView} zoomed={earthView} />
         </div>
       </div>
 
@@ -97,10 +110,16 @@ export default function Home() {
 
       <div className="relative z-10 mx-auto flex min-h-screen max-w-6xl flex-col px-6 py-6 opacity-85 md:px-10">
         <header className="flex items-center justify-between py-2">
-          <div className="text-lg font-semibold tracking-wide text-white/90">
+          <div className="text-2xl font-extrabold tracking-wide text-yellow-300">
             TripNova
           </div>
           <div className="flex items-center gap-3">
+            <button
+              onClick={() => setEarthView((prev) => !prev)}
+              className="rounded-full border border-yellow-300/40 bg-yellow-300/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-yellow-200 transition hover:bg-yellow-300/20"
+            >
+              {earthView ? "Back" : "Earth"}
+            </button>
             <a
               href="#about"
               className="hidden rounded-full border border-white/15 bg-white/[0.04] px-4 py-2 text-xs font-medium text-white/80 transition hover:bg-white/[0.12] md:inline-flex"
@@ -122,11 +141,10 @@ export default function Home() {
           </div>
         </header>
 
-        <section className="grid flex-1 items-center gap-12 py-16 md:grid-cols-2 md:py-20">
+        {!earthView && (
+          <>
+            <section className="grid flex-1 items-center gap-12 py-16 md:grid-cols-2 md:py-20">
           <div>
-            <p className="mb-4 inline-block rounded-full border border-cyan-400/40 bg-cyan-500/10 px-4 py-1 text-xs uppercase tracking-[0.2em] text-cyan-200">
-              Dark Experience
-            </p>
             <h1 className="text-4xl font-bold leading-tight md:text-6xl">
               Plan exceptional travel with clarity and control.
             </h1>
@@ -139,7 +157,7 @@ export default function Home() {
             <div className="mt-8 flex flex-wrap gap-4">
               <Link
                 href="/login"
-                className="rounded-xl bg-cyan-400 px-6 py-3 text-sm font-semibold text-slate-900 transition hover:bg-cyan-300"
+                className="rounded-xl bg-red-500 px-6 py-3 text-sm font-semibold text-white transition hover:bg-red-400"
               >
                 Get Started
               </Link>
@@ -153,7 +171,7 @@ export default function Home() {
           </div>
 
           <div className="rounded-3xl border border-white/10 bg-white/[0.01] p-6 shadow-2xl shadow-black/30 backdrop-blur">
-            <div className="mb-4 text-sm font-medium text-cyan-200">
+            <div className="mb-4 text-sm font-medium text-cyan-300">
               Why teams choose TripNova
             </div>
             <div id="features" className="space-y-4">
@@ -170,11 +188,11 @@ export default function Home() {
               ))}
             </div>
           </div>
-        </section>
+            </section>
 
-        <section id="popular-places" className="py-12 md:py-16">
+            <section id="popular-places" className="py-12 md:py-16">
           <div className="mb-6">
-            <p className="text-xs uppercase tracking-[0.2em] text-yellow-300/80">
+            <p className="text-xs uppercase tracking-[0.2em] text-cyan-300">
               Popular Places
             </p>
             <h2 className="mt-2 text-2xl font-bold md:text-3xl">
@@ -192,11 +210,11 @@ export default function Home() {
               </article>
             ))}
           </div>
-        </section>
+            </section>
 
-        <section id="reviews" className="py-12 md:py-16">
+            <section id="reviews" className="py-12 md:py-16">
           <div className="mb-6">
-            <p className="text-xs uppercase tracking-[0.2em] text-cyan-200/90">
+            <p className="text-xs uppercase tracking-[0.2em] text-cyan-300">
               Reviews
             </p>
             <h2 className="mt-2 text-2xl font-bold md:text-3xl">
@@ -215,11 +233,11 @@ export default function Home() {
               </article>
             ))}
           </div>
-        </section>
+            </section>
 
-        <section id="about" className="py-12 md:py-16">
+            <section id="about" className="py-12 md:py-16">
           <div className="rounded-3xl border border-white/10 bg-white/[0.02] p-6 md:p-8">
-            <p className="text-xs uppercase tracking-[0.2em] text-yellow-300/80">
+            <p className="text-xs uppercase tracking-[0.2em] text-cyan-300">
               About Us
             </p>
             <h2 className="mt-2 text-2xl font-bold md:text-3xl">
@@ -232,11 +250,11 @@ export default function Home() {
               faster and travel better.
             </p>
           </div>
-        </section>
+            </section>
 
-        <section id="contact" className="pb-14 pt-12 md:pb-20 md:pt-16">
+            <section id="contact" className="pb-14 pt-12 md:pb-20 md:pt-16">
           <div className="rounded-3xl border border-white/10 bg-black/20 p-6 md:p-8">
-            <p className="text-xs uppercase tracking-[0.2em] text-cyan-200/90">
+            <p className="text-xs uppercase tracking-[0.2em] text-cyan-300">
               Contact Us
             </p>
             <h2 className="mt-2 text-2xl font-bold md:text-3xl">
@@ -248,7 +266,9 @@ export default function Home() {
               <p>Location: Mumbai, India</p>
             </div>
           </div>
-        </section>
+            </section>
+          </>
+        )}
       </div>
     </main>
   );
