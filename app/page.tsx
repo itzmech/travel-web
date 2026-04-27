@@ -76,6 +76,9 @@ export default function Home() {
           <div className="text-lg font-semibold tracking-wide text-white/90">
             TripNova
           </div>
+          <span className="hidden rounded-full border border-yellow-300/40 bg-yellow-300/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-yellow-200 md:inline-flex">
+            Live Updated
+          </span>
           <div className="flex items-center gap-3">
             <a
               href="#about"
