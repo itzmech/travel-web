@@ -13,16 +13,16 @@ const HeroEarthBackground = dynamic(
 
 const features = [
   {
-    title: "Smart itinerary builder",
-    description: "Generate day plans in seconds with route-aware scheduling.",
+    title: "AI itinerary planning",
+    description: "Build optimized day-by-day plans with realistic travel timing.",
   },
   {
-    title: "Budget visibility",
-    description: "Track expected trip costs before you book flights and stays.",
+    title: "Budget confidence",
+    description: "Preview spend across flights, stays, and activities before booking.",
   },
   {
-    title: "Local insights",
-    description: "Discover high-rated places and hidden gems by destination.",
+    title: "Local recommendations",
+    description: "Get curated hotspots and lesser-known places worth visiting.",
   },
 ];
 
@@ -37,22 +37,22 @@ const popularPlaces = [
 
 const reviews = [
   {
-    name: "Riya Sharma",
-    role: "Solo Traveler",
+    name: "Riya S.",
+    role: "Solo traveler",
     quote:
-      "TripNova made planning my Europe trip incredibly easy. I saved time and stayed within budget.",
+      "Wander helped me plan a 10-day Europe route in one evening and I stayed on budget.",
   },
   {
-    name: "Arjun Patel",
-    role: "Travel Vlogger",
+    name: "Arjun P.",
+    role: "Travel creator",
     quote:
-      "The destination suggestions were spot on. I discovered local places I would have never found myself.",
+      "The destination suggestions were accurate and gave me places I would have missed myself.",
   },
   {
-    name: "Sana Khan",
-    role: "Family Planner",
+    name: "Sana K.",
+    role: "Family planner",
     quote:
-      "Simple, clean, and very practical. It helped me coordinate flights, stays, and activities for everyone.",
+      "Clean, practical, and fast. It made flights, hotels, and activities easy to coordinate.",
   },
 ];
 
@@ -97,8 +97,8 @@ export default function Home() {
 
       <div className="relative z-10 mx-auto flex min-h-screen max-w-6xl flex-col px-6 py-6 opacity-[0.96] md:px-10">
         <header className="flex items-center justify-between py-2">
-          <div className="text-3xl font-extrabold tracking-wide text-yellow-300 md:text-4xl">
-            TripNova
+          <div className="text-3xl font-extrabold tracking-wide text-cyan-300 md:text-4xl">
+            Wander
           </div>
           <div className="flex items-center gap-3">
             <a
@@ -126,18 +126,17 @@ export default function Home() {
           <section className="grid flex-1 items-center gap-12 py-16 md:grid-cols-2 md:py-20">
           <div>
             <h1 className="text-4xl font-bold leading-tight md:text-6xl">
-              Plan exceptional travel with clarity and control.
+              Discover your next journey with confidence.
             </h1>
             <p className="mt-5 max-w-xl text-base text-white/70 md:text-lg">
-              A high-contrast modern travel platform for discovery, planning,
-              and booking-ready itineraries. Built to keep your next trip
-              organized from idea to takeoff.
+              Wander is your modern travel frontend for exploring destinations,
+              comparing options, and generating practical trip plans in minutes.
             </p>
 
             <div className="mt-8 flex flex-wrap gap-4">
               <Link
                 href="/login"
-                className="rounded-xl bg-red-500 px-6 py-3 text-sm font-semibold text-white transition hover:bg-red-400"
+                className="rounded-xl bg-cyan-500 px-6 py-3 text-sm font-semibold text-white transition hover:bg-cyan-400"
               >
                 Get Started
               </Link>
@@ -152,7 +151,7 @@ export default function Home() {
 
           <div className="rounded-3xl border border-white/10 bg-white/[0.01] p-6 shadow-2xl shadow-black/30 backdrop-blur">
             <div className="mb-4 text-base font-semibold text-cyan-300 md:text-lg">
-              Why teams choose TripNova
+              Why travelers choose Wander
             </div>
             <div id="features" className="space-y-4">
               {features.map((feature) => (
@@ -176,7 +175,7 @@ export default function Home() {
               Popular Places
             </p>
             <h2 className="mt-2 text-3xl font-bold md:text-4xl">
-              Destinations people are visiting right now
+              Popular destinations right now
             </h2>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -198,7 +197,7 @@ export default function Home() {
               Reviews
             </p>
             <h2 className="mt-2 text-3xl font-bold md:text-4xl">
-              What our users say about us
+              What users say about Wander
             </h2>
           </div>
           <div className="grid gap-4 md:grid-cols-3">
@@ -221,13 +220,12 @@ export default function Home() {
               About Us
             </p>
             <h2 className="mt-2 text-3xl font-bold md:text-4xl">
-              We design travel experiences around real people
+              Designed for real travel decisions
             </h2>
             <p className="mt-4 max-w-3xl text-base leading-8 text-white/70 md:text-lg">
-              TripNova is built for travelers who want speed, confidence, and
-              flexibility. Our mission is to simplify travel planning with
-              intelligent tools and destination insights that help you decide
-              faster and travel better.
+              Wander helps travelers move from inspiration to clear plans. We
+              combine smart trip guidance with destination intelligence so you
+              can make faster decisions and travel with less uncertainty.
             </p>
           </div>
           </section>
@@ -241,7 +239,7 @@ export default function Home() {
               Let&apos;s plan your next journey
             </h2>
             <div className="mt-5 grid gap-3 text-base text-white/75 md:grid-cols-3 md:text-lg">
-              <p>Email: hello@tripnova.com</p>
+              <p>Email: hello@wander.com</p>
               <p>Phone: +91 90000 11111</p>
               <p>Location: Mumbai, India</p>
             </div>
