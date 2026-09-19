@@ -29,7 +29,7 @@ export function DestinationPanel({ destination, onClose }: DestinationPanelProps
           <div className="relative h-48 w-full overflow-hidden rounded-t-3xl md:rounded-none md:rounded-tl-3xl">
             <img
               src={destination.heroImage}
-              alt={destination.name}
+              alt={`View of ${destination.name}, ${destination.country}`}
               className="h-full w-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#0f0f14] via-transparent to-transparent" />

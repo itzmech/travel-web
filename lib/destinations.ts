@@ -658,6 +658,64 @@ export const DESTINATIONS: Destination[] = [
     ]
   },
   {
+    id: "kyoto",
+    name: "Kyoto",
+    country: "Japan",
+    flag: "🇯🇵",
+    lat: 35.0116,
+    lng: 135.7681,
+    heroImage: "https://images.unsplash.com/photo-1545569341-9eb8b30979d9?w=800&q=80",
+    pros: [
+      "Over 1,600 temples and shrines, many within walking distance",
+      "Best-preserved historic districts in Japan (Gion, Higashiyama)",
+      "Spectacular seasonal beauty: cherry blossoms and autumn foliage",
+      "Refined kaiseki cuisine and centuries-old tea culture",
+      "Flat, grid-based streets that are perfect for cycling"
+    ],
+    cons: [
+      "Cherry blossom and autumn peak seasons are extremely crowded",
+      "Accommodation sells out months in advance",
+      "Summer heat and humidity can be draining",
+      "Many attractions close early, around 5pm"
+    ],
+    places: [
+      { name: "Fushimi Inari Shrine", icon: "⛩️", description: "Thousands of vermillion torii gates up the mountainside" },
+      { name: "Kinkaku-ji", icon: "🏯", description: "The Golden Pavilion reflected in its mirror pond" },
+      { name: "Arashiyama Bamboo Grove", icon: "🎋", description: "Towering green corridor on the city's edge" },
+      { name: "Gion", icon: "🏮", description: "Geisha district of wooden machiya houses" },
+      { name: "Nishiki Market", icon: "🍡", description: "Kyoto's kitchen — five blocks of food stalls" }
+    ]
+  },
+  {
+    id: "zanzibar",
+    name: "Zanzibar",
+    country: "Tanzania",
+    flag: "🇹🇿",
+    lat: -6.1659,
+    lng: 39.2026,
+    heroImage: "https://images.unsplash.com/photo-1523805009345-7448845a9e53?w=800&q=80",
+    pros: [
+      "Postcard white-sand beaches at Nungwi and Paje",
+      "Stone Town's UNESCO-listed mix of Arab, Indian and European heritage",
+      "Famous spice tours — clove, vanilla and nutmeg farms",
+      "World-class snorkeling and diving at Mnemba Atoll",
+      "Far more affordable than comparable Indian Ocean resorts"
+    ],
+    cons: [
+      "Long rains (March-May) can flood roads and stall ferries",
+      "Touts are persistent on public beaches",
+      "Medical facilities are limited outside Stone Town",
+      "Conservative villages have strict local dress codes"
+    ],
+    places: [
+      { name: "Stone Town", icon: "🏘️", description: "Labyrinth of carved doors, bazaars and rooftop cafes" },
+      { name: "Nungwi Beach", icon: "🏖️", description: "Swimmable white sand on the north coast" },
+      { name: "The Rock", icon: "🪨", description: "Iconic restaurant perched on a tidal rock" },
+      { name: "Jozani Forest", icon: "🐒", description: "Home of the rare red colobus monkey" },
+      { name: "Spice Farms", icon: "🌶️", description: "Guided tastings straight from the source" }
+    ]
+  },
+  {
     id: "vancouver",
     name: "Vancouver",
     country: "Canada",
@@ -861,6 +919,18 @@ export const DESTINATIONS: Destination[] = [
     ]
   }
 ];
+
+/** All destination slugs — used for static generation and the sitemap. */
+export const DESTINATION_SLUGS = DESTINATIONS.map((d) => d.id);
+
+export function getDestinationBySlug(slug: string): Destination | undefined {
+  return DESTINATIONS.find((d) => d.id === slug);
+}
+
+/** Curated highlights drawn from the existing places data. */
+export function getDestinationHighlights(destination: Destination): string[] {
+  return destination.places.slice(0, 3).map((p) => p.name);
+}
 
 // TODO: Replace with geocoding API
 export function latLngToVector3(lat: number, lng: number, radius: number = 1): [number, number, number] {

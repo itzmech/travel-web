@@ -3,13 +3,23 @@ import { Geist, Geist_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
-const _geist = Geist({ subsets: ["latin"] });
-const _geistMono = Geist_Mono({ subsets: ["latin"] });
+const geist = Geist({
+  subsets: ["latin"],
+  variable: "--font-geist-sans",
+});
+
+const geistMono = Geist_Mono({
+  subsets: ["latin"],
+  variable: "--font-geist-mono",
+});
 
 export const metadata: Metadata = {
-  title: 'Wanderlust - Discover the World',
+  title: {
+    default: 'Wander — Explore the world beyond the obvious',
+    template: '%s — Wander',
+  },
   description: 'Interactive 3D globe travel discovery. Explore destinations worldwide with immersive visuals and detailed insights.',
-  generator: 'v0.app',
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'https://wander.example.com'),
   icons: {
     icon: [
       {
@@ -35,7 +45,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className="bg-[#0a0a0f]">
+    <html lang="en" className={`bg-[#0a0a0f] ${geist.variable} ${geistMono.variable}`}>
       <body className="font-sans antialiased bg-[#0a0a0f]">
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}

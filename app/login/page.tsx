@@ -47,7 +47,7 @@ export default function LoginPage() {
             Access protected pages with your credentials.
           </p>
           <p className="mt-2 text-xs text-cyan-200">
-            Demo: admin@tripnova.com / TripNova@123
+            Demo build — ask the team for test credentials.
           </p>
         </div>
 
