@@ -1,8 +1,8 @@
 import type { MetadataRoute } from "next";
 import { DESTINATION_SLUGS } from "@/lib/destinations";
+import { getSiteUrl } from "@/lib/site-url";
 
-const BASE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://wander.example.com";
+const BASE_URL = getSiteUrl();
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();

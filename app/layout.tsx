@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
+import { getSiteUrl } from '@/lib/site-url'
 import './globals.css'
 
 const geist = Geist({
@@ -19,7 +20,7 @@ export const metadata: Metadata = {
     template: '%s — Wander',
   },
   description: 'Interactive 3D globe travel discovery. Explore destinations worldwide with immersive visuals and detailed insights.',
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'https://wander.example.com'),
+  metadataBase: new URL(getSiteUrl()),
   icons: {
     icon: [
       {
