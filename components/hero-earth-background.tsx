@@ -15,27 +15,52 @@ function usePrefersReducedMotion(): boolean {
 }
 
 function RotatingEarth() {
-  const earthRef = useRef<THREE.Mesh>(null);
+  const groupRef = useRef<THREE.Group>(null);
   const reducedMotion = usePrefersReducedMotion();
   const texture = useLoader(THREE.TextureLoader, "/earth-2048.jpg");
 
   useFrame((_, delta) => {
-    if (earthRef.current && !reducedMotion) {
-      earthRef.current.rotation.y += delta * 0.096;
+    if (groupRef.current && !reducedMotion) {
+      groupRef.current.rotation.y += delta * 0.096;
     }
   });
 
   return (
-    <Sphere args={[0.94, 64, 64]} ref={earthRef}>
-      <meshStandardMaterial
-        map={texture}
-        color="#e8eef9"
-        emissive="#17263a"
-        emissiveIntensity={0.04}
-        metalness={0.06}
-        roughness={0.86}
-      />
-    </Sphere>
+    <group ref={groupRef}>
+      {/* Soft outer halo */}
+      <Sphere args={[1.06, 32, 32]}>
+        <meshBasicMaterial
+          color="#4da6ff"
+          transparent
+          opacity={0.07}
+          blending={THREE.AdditiveBlending}
+          depthWrite={false}
+        />
+      </Sphere>
+
+      {/* Rim atmosphere */}
+      <Sphere args={[0.98, 64, 64]}>
+        <meshBasicMaterial
+          color="#6ec4ff"
+          transparent
+          opacity={0.22}
+          side={THREE.BackSide}
+          blending={THREE.AdditiveBlending}
+          depthWrite={false}
+        />
+      </Sphere>
+
+      <Sphere args={[0.94, 64, 64]}>
+        <meshStandardMaterial
+          map={texture}
+          color="#e8eef9"
+          emissive="#1e4a7a"
+          emissiveIntensity={0.14}
+          metalness={0.08}
+          roughness={0.82}
+        />
+      </Sphere>
+    </group>
   );
 }
 
@@ -55,9 +80,10 @@ export function HeroEarthBackground() {
       dpr={[1, 1.5]}
       style={{ background: "transparent" }}
     >
-      <ambientLight intensity={0.4} />
-      <directionalLight position={[4, 2, 5]} intensity={0.96} color="#ffffff" />
-      <directionalLight position={[-4, -2, -4]} intensity={0.24} color="#9bbcff" />
+      <ambientLight intensity={0.42} />
+      <directionalLight position={[4, 2, 5]} intensity={1.05} color="#ffffff" />
+      <directionalLight position={[-4, -2, -4]} intensity={0.32} color="#9bbcff" />
+      <pointLight position={[2.5, 1, 3]} intensity={0.35} color="#5eb8ff" distance={6} />
       <Suspense fallback={<EarthFallback />}>
         <RotatingEarth />
       </Suspense>
