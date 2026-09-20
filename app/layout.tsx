@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
+import { Geist, Geist_Mono, Playfair_Display, Caveat, Space_Grotesk, Newsreader } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { getSiteUrl } from '@/lib/site-url'
 import './globals.css'
@@ -12,6 +12,34 @@ const geist = Geist({
 const geistMono = Geist_Mono({
   subsets: ["latin"],
   variable: "--font-geist-mono",
+});
+
+const atlasPlayfair = Playfair_Display({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-atlas-playfair",
+  display: "swap",
+});
+
+const atlasCaveat = Caveat({
+  subsets: ["latin"],
+  weight: ["400", "600"],
+  variable: "--font-atlas-caveat",
+  display: "swap",
+});
+
+const atlasGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  variable: "--font-atlas-grotesk",
+  display: "swap",
+});
+
+const atlasNewsreader = Newsreader({
+  subsets: ["latin"],
+  style: ["normal", "italic"],
+  variable: "--font-atlas-newsreader",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -46,8 +74,11 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`bg-[#0a0a0f] ${geist.variable} ${geistMono.variable}`}>
-      <body className="font-sans antialiased bg-[#0a0a0f]">
+    <html
+      lang="en"
+      className={`bg-atlas-bg ${geist.variable} ${geistMono.variable} ${atlasPlayfair.variable} ${atlasCaveat.variable} ${atlasGrotesk.variable} ${atlasNewsreader.variable}`}
+    >
+      <body className="font-sans antialiased bg-atlas-bg">
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>

@@ -182,3 +182,98 @@
     opacity: 0;
   }
 }
+
+/* ==========================================================================
+   THE ATLAS — Surveyor's Folio theme (design tokens from stitch_the_atlas)
+   ========================================================================== */
+
+@theme {
+  --color-atlas-bg: #0c141f;
+  --color-atlas-abyss: #070e17;
+  --color-atlas-surface: #0e1622;
+  --color-atlas-panel: #101924;
+  --color-atlas-container: #141c27;
+  --color-atlas-raised: #1b2737;
+  --color-atlas-high: #243245;
+  --color-atlas-ink: #ede3d1;
+  --color-atlas-bright: #f4eee2;
+  --color-atlas-body: #9cb0c2;
+  --color-atlas-dim: #8ea4b8;
+  --color-atlas-faint: #657e96;
+  --color-atlas-brass: #f2be63;
+  --color-atlas-brass-bright: #ffdeaa;
+  --color-atlas-parchment: #d4c5a9;
+  --color-atlas-primary: #bdc7d9;
+  --color-atlas-outline: #2b3d52;
+  --color-atlas-outline-soft: #1c2a3b;
+  --color-atlas-terra: #c8523b;
+  --color-atlas-terra-bright: #e06650;
+}
+
+@theme inline {
+  --font-atlas-serif: var(--font-atlas-playfair), Georgia, serif;
+  --font-atlas-hand: var(--font-atlas-caveat), cursive;
+  --font-atlas-label: var(--font-atlas-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-atlas-body: var(--font-atlas-newsreader), Georgia, serif;
+}
+
+::selection {
+  background: rgba(242, 190, 99, 0.22);
+  color: #ede3d1;
+}
+
+/* Photo corner mounts on survey plates */
+.photo-mount {
+  position: relative;
+}
+.photo-mount::before,
+.photo-mount::after {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  z-index: 20;
+  pointer-events: none;
+  border-color: rgba(242, 190, 99, 0.45);
+}
+.photo-mount::before {
+  top: -3px;
+  left: -3px;
+  border-top: 2px solid;
+  border-left: 2px solid;
+}
+.photo-mount::after {
+  bottom: -3px;
+  right: -3px;
+  border-bottom: 2px solid;
+  border-right: 2px solid;
+}
+
+/* Smooth notebook drawer transition */
+.drawer-transition {
+  transition:
+    transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.35s ease;
+}
+
+/* Radar pulsing ring for plate waypoints */
+@keyframes ping-slow {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+.animate-ping-slow {
+  animation: ping-slow 2.4s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
