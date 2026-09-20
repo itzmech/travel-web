@@ -14,14 +14,14 @@ export default function GlobalError({
   }, [error]);
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-[#030b19] px-6 text-center text-white">
-      <h1 className="text-2xl font-semibold">Turbulence ahead</h1>
-      <p className="mt-2 max-w-md text-sm text-white/60">
+    <main className="flex min-h-screen flex-col items-center justify-center bg-deep px-6 text-center text-paper">
+      <h1 className="font-serif text-2xl">Turbulence ahead</h1>
+      <p className="mt-2 max-w-md text-sm text-muted-w">
         Something went wrong on our side. Give it another try.
       </p>
       <button
         onClick={reset}
-        className="mt-6 rounded-full bg-[#16dca6] px-5 py-2.5 text-sm font-semibold text-[#042617] transition hover:brightness-110"
+        className="mt-6 rounded-full bg-teal px-5 py-2.5 text-sm font-semibold text-deep transition hover:bg-gold"
       >
         Try again
       </button>

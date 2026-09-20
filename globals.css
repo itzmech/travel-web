@@ -4,7 +4,7 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * Wander palette -- inspired by specific places, not products:
+ * Wander palette — inspired by specific places, not products:
  * Deep Ocean    #0B3D5D  night sea / twilight sky
  * Warm Sand     #D4A574  desert dunes at dawn
  * Terra Cotta   #C9652E  sun-baked earth
@@ -44,7 +44,7 @@
 }
 
 @theme inline {
-  --font-sans: var(--font-body), 'Source Sans 3', system-ui, sans-serif;
+  --font-sans: var(--font-body), 'Inter', system-ui, sans-serif;
   --font-serif: var(--font-display), 'Playfair Display', Georgia, serif;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
