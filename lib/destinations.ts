@@ -490,7 +490,7 @@ export const DESTINATIONS: Destination[] = [
     flag: "🇲🇦",
     lat: 31.6295,
     lng: -7.9811,
-    heroImage: "https://images.unsplash.com/photo-1597212720158-fcc3ba69860a?w=800&q=80",
+    heroImage: "https://images.unsplash.com/photo-1597211833712-5e41faa202ea?w=800&q=80",
     pros: [
       "Exotic medina experience",
       "Beautiful riads to stay",
@@ -722,7 +722,7 @@ export const DESTINATIONS: Destination[] = [
     flag: "🇨🇦",
     lat: 49.2827,
     lng: -123.1207,
-    heroImage: "https://images.unsplash.com/photo-1559511260-66a68e71a585?w=800&q=80",
+    heroImage: "https://images.unsplash.com/photo-1539020140153-e479b8c22e70?w=800&q=80",
     pros: [
       "Stunning mountain and ocean views",
       "Outdoor activities year-round",
