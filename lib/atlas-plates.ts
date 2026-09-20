@@ -50,8 +50,6 @@ export interface AtlasDispatch {
   destinationId: string;
 }
 
-const PLATE_SLUGS = ["reykjavik", "tokyo", "marrakech", "cairo"];
-
 function pad2(n: number): string {
   return String(Math.floor(n)).padStart(2, "0");
 }
@@ -74,81 +72,198 @@ export function formatDispatchCoords(lat: number, lng: number): string {
   return `${latPart}, ${lngPart}`;
 }
 
-const PIN_TEMPLATES: Omit<PlatePin, "note" | "source">[] = [
-  { id: 1, top: "35%", left: "28%", label: "PT. \u03b1 \u2022 SOUNDING", tone: "brass" },
-  { id: 2, top: "68%", left: "64%", label: "PT. \u03b2 \u2022 SPECIMEN", tone: "brass" },
-  { id: 3, top: "22%", left: "72%", label: "PT. \u03b3 \u2022 AZIMUTH", tone: "terra" },
+/* ------------------------------------------------------------------ */
+/* Rotating phrase banks so all 31 plates feel hand-set, not stamped   */
+/* ------------------------------------------------------------------ */
+
+const QUESTIONS = [
+  "Where Does the Sea Turn to Stone?",
+  "Why Do the Compasses Hesitate Here?",
+  "What Sings Beneath the Harbor Fog?",
+  "Where Do the Dunes Swallow the Stars?",
+  "How Old Is the Light on These Rooftops?",
+  "Where the Charts Run Out of Ink",
+  "What Sleeps Beneath the Still Water?",
+  "Which Wind Carries the Bells Home?",
 ];
 
-function buildPins(name: string): PlatePin[] {
+const SUFFIXES = [
+  "Drift",
+  "Passage",
+  "Expanse",
+  "Meridian",
+  "Traverse",
+  "Soundings",
+  "Latitude",
+  "Crossing",
+];
+
+const SUBTITLES = [
+  (name: string) =>
+    `A quiet inquiry into frozen fjords, solitary coastlines, and why the compass begins to hesitate near ${name} in the long twilight.`,
+  (name: string) =>
+    `A quiet inquiry into salt-stained instruments, patient horizons, and the way ${name} quietly rearranges distance.`,
+  (name: string, country: string) =>
+    `A quiet inquiry into unmapped currents, borrowed light, and the silence between two bells at ${name}, on the ${country} rim.`,
+  (country: string) =>
+    `A quiet inquiry into ledger margins, errant compasses, and the stubborn weather of the ${country} interior.`,
+];
+
+const CAPTION_QUOTES = [
+  (name: string, n: number) => `\u2014 ${name} hummocks sounded at ${n} fathoms`,
+  (name: string) => `\u2014 bell heard across the ${name} roads at ebb tide`,
+  (country: string) => `\u2014 lantern tallow recorded at the ${country} drift-line`,
+  (name: string) => `\u2014 dust and sea-smoke measured off ${name}`,
+];
+
+const TERRAIN = ["Coastline", "Plateau", "Basin", "Ridge", "Delta", "Highlands", "Harbor"];
+
+const ASTRONOMY = [
+  () =>
+    `\u201cA green filament uncoiled across Polaris at 11:40 UTC. Is there an electrical pulse between sea and sun?\u201d`,
+  () =>
+    `\u201cTwo shadows at noon \u2014 one ours, one unaccounted for. The sextant insists both are real.\u201d`,
+  () => `\u201cThe magnetometer swayed with no wind. We logged it as weather and moved on.\u201d`,
+  (name: string) =>
+    `\u201cVenus rose early and sat low over ${name}, as if waiting for the tide to finish its arithmetic.\u201d`,
+];
+
+const PROSE = [
+  (name: string, country: string, terrain: string) =>
+    `At zero-eight-hundred the ${name} fog lifts under an unseen current. Why is the silence here heavier than elsewhere? There is no bird, no bell, no thaw\u2014only the low resonance of the ${country} ${terrain.toLowerCase()} compressing into blue quartz.`,
+  (name: string, country: string) =>
+    `The ${country} light arrives late and leaves early. We recorded ${name} in three weathers and not one of them agreed with the chart.`,
+  (name: string, country: string, terrain: string) =>
+    `Somewhere beneath the ${name} quays the old soundings still hold. Why does the needle lean toward the ${terrain.toLowerCase()} as if it remembered a coastline the charts forgot?`,
+  (name: string, country: string) =>
+    `Barometers disagree about ${name}. The register says ${country}; the wind says otherwise. We side with the wind, provisionally.`,
+];
+
+const PROSE_ASIDES = [
+  () =>
+    `We left lantern tallow on the drift-line; by noon, something had tasted it and turned toward the open sea.`,
+  () => `The moss circles around the well-head orient to magnetic west \u2014 every one of them, without exception.`,
+  () => `A courier arrived with blank paper and asked us not to fill it. We filled it.`,
+];
+
+const PIN_POSITIONS = [
+  [
+    { top: "35%", left: "28%" },
+    { top: "68%", left: "64%" },
+    { top: "22%", left: "72%" },
+  ],
+  [
+    { top: "30%", left: "60%" },
+    { top: "62%", left: "30%" },
+    { top: "24%", left: "74%" },
+  ],
+  [
+    { top: "40%", left: "22%" },
+    { top: "66%", left: "58%" },
+    { top: "18%", left: "48%" },
+  ],
+  [
+    { top: "32%", left: "50%" },
+    { top: "70%", left: "36%" },
+    { top: "20%", left: "66%" },
+  ],
+];
+
+const PIN_TONES: PlatePin["tone"][][] = [
+  ["brass", "brass", "terra"],
+  ["brass", "terra", "brass"],
+  ["terra", "brass", "brass"],
+  ["brass", "brass", "terra"],
+];
+
+const pick = <T,>(list: T[], index: number): T => list[index % list.length];
+
+function buildPins(destination: Destination, index: number): PlatePin[] {
+  const { name, places } = destination;
+  const positions = pick(PIN_POSITIONS, index);
+  const tones = pick(PIN_TONES, index);
   const notes = [
     {
-      note: `\u201cIs it wind, or the sea breathing beneath two fathoms of slate off ${name}? The needle shivers when we face the outer breakwater.\u201d \u2014 H.V.`,
+      label: "PT. \u03b1 \u2022 SOUNDING",
+      note: `\u201cIs it wind, or the sea breathing beneath two fathoms of slate off ${name}? The needle shivers when we face the ${places[0]?.name ?? "outer breakwater"}.\u201d \u2014 H.V.`,
       source: "FIELD REGISTER PINPOINT \u03b1",
     },
     {
-      note: `\u201cSpecimen 44: fauna sampled off ${name} fluoresces faint cyan when exposed to lantern flame.\u201d`,
+      label: "PT. \u03b2 \u2022 SPECIMEN",
+      note: `\u201cSpecimen 44, drawn at the ${places[1]?.name ?? "harbor basin"} near ${name}, fluoresces faint cyan under lantern flame.\u201d`,
       source: "FIELD REGISTER PINPOINT \u03b2",
     },
     {
-      note: `\u201cAzimuth reading drifts clockwise by three arcseconds per watch over ${name}. We verify with sextant twice daily.\u201d`,
+      label: "PT. \u03b3 \u2022 AZIMUTH",
+      note: `\u201cAzimuth readings above ${name} drift ${index % 2 === 0 ? "clockwise" : "counter-clockwise"} by ${3 + (index % 7)} arcseconds per watch. We verify with sextant twice daily.\u201d`,
       source: "FIELD REGISTER PINPOINT \u03b3",
     },
   ];
-  return PIN_TEMPLATES.map((pin, i) => ({ ...pin, ...notes[i] }));
+  return notes.map((entry, i) => ({
+    id: i + 1,
+    top: positions[i].top,
+    left: positions[i].left,
+    tone: tones[i],
+    ...entry,
+  }));
 }
 
 function buildPlate(destination: Destination, index: number): AtlasPlate {
-  const { name, country, lat, lng, heroImage } = destination;
-  const fig = 18 + index * 21;
+  const { name, country, lat, lng, heroImage, places } = destination;
+  const fig = 18 + index * 3;
+  const terrain = pick(TERRAIN, index);
+  const question = pick(QUESTIONS, index);
+  const suffix = pick(SUFFIXES, index);
+  const subtitleFn = pick(SUBTITLES, index);
+  const proseFn = pick(PROSE, index);
+  const captionFn = pick(CAPTION_QUOTES, index);
+  const astronomyFn = pick(ASTRONOMY, index);
+  const hour = pad2(6 + (index % 4));
+
   return {
     slug: destination.id,
-    plateNo: `PLATE NO. 0${fig}-A`,
+    plateNo: `PLATE NO. ${String(fig).padStart(3, "0")}-A`,
     sector: `${country.toUpperCase()} SECTOR`,
-    title: `Where Does the Sea Turn to Stone? The ${name} Drift`,
-    shortTitle: `${name} Drift`,
-    subtitle: `A quiet inquiry into frozen fjords, solitary coastlines, and why the compass begins to hesitate near ${name} in the long twilight.`,
+    title: `${question} The ${name} ${suffix}`,
+    shortTitle: `${name} ${suffix}`,
+    subtitle: subtitleFn(name, country),
     epigraph: `\u201cWhat lies past the perimeter of our charts? Questions gathered at the outer rim of ${country}.\u201d`,
     image: heroImage,
     scaleLabel: `PLATE FIG. ${fig} \u2022 MERCATOR SCALE 1:50,000`,
-    captionQuote: `\u2014 ${name} hummocks sounded at ${8 + index} fathoms`,
+    captionQuote: captionFn(name, 8 + (index % 9)),
     cardTitle: `Field Inquiries \u2022 ${name} Station`,
-    temp: `${(-24.5 + index * 6.25).toFixed(1)}\u00b0 C`,
-    prose: `At zero-eight-hundred the fjord groans under an unseen current. Why is the silence here heavier than elsewhere? There is no bird, no insect, no thaw\u2014only the low resonance of the ${country} coastline compressing into blue quartz.`,
-    proseAside: `We left lantern tallow on the drift-line; by noon, something had tasted it and turned toward the open sea.`,
+    temp: `${(28 - Math.abs(lat) * 0.55).toFixed(1)}\u00b0 C`,
+    prose: proseFn(name, country, terrain),
+    proseAside: pick(PROSE_ASIDES, index)(),
     coords: formatDMS(lat, lng),
     liveLat: `LAT: ${Math.abs(lat).toFixed(0)}\u00b0${lat >= 0 ? "N" : "S"}`,
     liveLon: `LON: ${Math.abs(lng).toFixed(0)}\u00b0${lng >= 0 ? "E" : "W"}`,
-    elevation: `${14 + index * 9}m AMSL (Coastline)`,
-    anomaly: `Compass Variation ${(-11.4 + index * 2.3).toFixed(1)}\u00b0`,
-    astronomy: `\u201cA green filament uncoiled across Polaris at 11:40 UTC. Is there an electrical pulse between sea and sun?\u201d`,
-    pins: buildPins(name),
+    elevation: `${6 + ((index * 13) % 190)}m AMSL (${terrain})`,
+    anomaly: `Compass Variation ${(-11.4 + ((index * 7) % 23) - 5).toFixed(1)}\u00b0`,
+    astronomy: astronomyFn(name),
+    pins: buildPins(destination, index),
     drawerNotes: [
       {
-        text: `\u201c08:14 UTC \u2014 Sounding through shelf ice revealed counter-current at ${8 + index} fathoms. Needle deflected 4 degrees east.\u201d`,
-        source: "Sounding Register 14",
+        text: `\u201c${hour}:14 UTC \u2014 Sounding through the ${terrain.toLowerCase()} shelf revealed counter-current at ${8 + (index % 9)} fathoms. Needle deflected ${2 + (index % 5)} degrees east.\u201d`,
+        source: `Sounding Register ${12 + index}`,
         tone: "brass",
       },
       {
-        text: `\u201cWhy does lantern tallow turn turquoise on the tidal crack near ${name}? Unmapped copper-brine saturation.\u201d`,
+        text: `\u201cWhy does lantern tallow turn turquoise on the ${name} tidal crack? ${places[2]?.name ?? "The lower quarter"} hums when the gales rise.\u201d`,
         source: "Field Chemist Note",
         tone: "terra",
       },
     ],
-    sextant: `${38 + index}\u00b0 14\u2032`,
-    baro: `${(1024.2 - index * 3.1).toFixed(1)} hPa`,
+    sextant: `${30 + (index % 14)}\u00b0 ${10 + (index % 5) * 7}\u2032`,
+    baro: `${(1024.2 - (index % 9) * 2.3).toFixed(1)} hPa`,
     sealSector: `${country.toUpperCase()} CORRIDOR`,
-    sealNo: `NO. ${441 + index * 37}-S`,
+    sealNo: `NO. ${441 + index * 13}-S`,
   };
 }
 
-export const ATLAS_PLATES: AtlasPlate[] = PLATE_SLUGS.map((slug, index) => {
-  const destination = DESTINATIONS.find((d) => d.id === slug);
-  if (!destination) {
-    throw new Error(`Unknown atlas plate destination: ${slug}`);
-  }
-  return buildPlate(destination, index);
-});
+export const ATLAS_PLATES: AtlasPlate[] = DESTINATIONS.map((destination, index) =>
+  buildPlate(destination, index),
+);
 
 const DISPATCH_DEFS: {
   destinationId: string;

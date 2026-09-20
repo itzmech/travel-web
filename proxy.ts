@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { AUTH_COOKIE, verifySessionToken } from "@/lib/auth";
 
-const PUBLIC_PATHS = new Set(["/", "/login", "/api/auth/login", "/api/auth/logout"]);
+const PUBLIC_PATHS = new Set(["/", "/explore", "/login", "/api/auth/login", "/api/auth/logout"]);
 
 /**
  * Auth gate (Next.js 16 "proxy", formerly middleware). Runs for every
