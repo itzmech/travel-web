@@ -1,20 +1,20 @@
 import type { Metadata } from "next";
 import { AtlasLanding } from "@/components/atlas-landing";
-import { ATLAS_DISPATCHES, ATLAS_PLATES } from "@/lib/atlas-plates";
+import { ATLAS_PLATES, FIELD_NOTES } from "@/lib/atlas-plates";
 
 export const metadata: Metadata = {
-  title: "The Atlas — Surveyor's Folio & Field Register",
+  title: "The Atlas — Honest travel guides for 31 destinations",
   description:
-    "An interactive cartographic folio: inspect expedition survey plates, waypoint annotations, curator dispatches, and deposit your own field observations.",
+    "Interactive travel folio: explore 31 destinations with honest pros, cons, curated sights, and coordinates. Auto-cycling survey plates with waypoint details.",
   alternates: { canonical: "/" },
   openGraph: {
-    title: "The Atlas — Surveyor's Folio & Field Register",
+    title: "The Atlas — Honest travel guides for 31 destinations",
     description:
-      "An interactive cartographic folio: inspect expedition survey plates, waypoint annotations, curator dispatches, and deposit your own field observations.",
+      "Interactive travel folio: explore 31 destinations with honest pros, cons, curated sights, and coordinates.",
     type: "website",
   },
 };
 
 export default function Home() {
-  return <AtlasLanding plates={ATLAS_PLATES} dispatches={ATLAS_DISPATCHES} />;
+  return <AtlasLanding plates={ATLAS_PLATES} notes={FIELD_NOTES} />;
 }

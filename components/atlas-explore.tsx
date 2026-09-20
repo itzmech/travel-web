@@ -2,28 +2,28 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { ArrowRight, ChevronLeft, ChevronRight, Crosshair, MousePointerClick } from "lucide-react";
-import type { AtlasDispatch, AtlasPlate } from "@/lib/atlas-plates";
+import { ChevronLeft, ChevronRight, Crosshair, MousePointerClick } from "lucide-react";
+import type { AtlasPlate, FieldNote } from "@/lib/atlas-plates";
 import {
   DossierCard,
-  DispatchesSection,
+  FieldNotesSection,
   FolioChrome,
   NotebookDrawer,
   PinDot,
-  RegisterSection,
+  PlanSection,
+  TopPicksCard,
 } from "@/components/atlas-chrome";
 
 export function AtlasExplore({
   plates,
-  dispatches,
+  notes,
 }: {
   plates: AtlasPlate[];
-  dispatches: AtlasDispatch[];
+  notes: FieldNote[];
 }) {
   const [focusIndex, setFocusIndex] = useState(0);
   const [activePin, setActivePin] = useState(1);
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const stripRef = useRef<HTMLDivElement | null>(null);
   const cardRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
   const plate = plates[focusIndex];
@@ -52,31 +52,31 @@ export function AtlasExplore({
     <FolioChrome activePlate={plate} onOpenNotebook={() => setDrawerOpen(true)}>
       <main className="w-full flex-grow pb-36 pt-32">
         <div className="mx-auto max-w-6xl px-6 sm:px-12">
-          {/* ============ SECTION 1: SURVEY INDEX ============ */}
+          {/* ============ SECTION 1: GUIDE INDEX ============ */}
           <section className="pb-14 pt-8">
             <div className="mb-8 flex flex-col justify-between gap-3 border-b border-atlas-outline-soft pb-4 sm:flex-row sm:items-baseline">
               <div className="flex items-center gap-3 font-atlas-label text-[11px] uppercase tracking-[0.24em] text-atlas-faint">
                 <span className="font-bold text-atlas-brass">&#9670;</span>
                 <span className="font-semibold tracking-widest text-atlas-brass">
-                  The Grand Survey
+                  Explore All
                 </span>
                 <span className="text-atlas-outline">|</span>
-                <span className="tracking-widest">{plates.length} Registered Plates</span>
+                <span className="tracking-widest">{plates.length} Destinations</span>
               </div>
               <span className="font-atlas-hand text-xl tracking-wide text-atlas-parchment">
-                &ldquo;Every plate a doorway; every doorway a question.&rdquo;
+                Every guide, side by side &mdash; pick your next crossing.
               </span>
             </div>
             <div className="max-w-3xl space-y-4">
               <span className="block font-atlas-label text-[11px] font-semibold uppercase tracking-[0.3em] text-atlas-brass/90">
-                Terra Incognita &bull; Complete Register
+                Honest travel guides &bull; beyond the obvious
               </span>
               <h1 className="font-atlas-serif text-4xl font-normal leading-[1.15] tracking-tight text-atlas-bright sm:text-5xl md:text-[54px]">
-                The Surveyor&apos;s Grand Traverse
+                The Full Register
               </h1>
               <p className="max-w-2xl pt-2 font-atlas-body text-xl font-light italic leading-relaxed text-atlas-body md:text-2xl">
-                Thirty-one plates from the Society&apos;s archive, arranged for inspection. Slide
-                along the folio, stop where the compass trembles.
+                {plates.length} destinations with what to see, what to skip, and when to go.
+                Slide along the strip and stop where the compass points.
               </p>
             </div>
           </section>
@@ -86,14 +86,14 @@ export function AtlasExplore({
             <div className="mb-5 flex items-center justify-between gap-4 border-b border-atlas-outline-soft pb-2">
               <div className="flex items-center gap-3 font-atlas-label text-xs uppercase tracking-[0.18em] text-atlas-faint">
                 <MousePointerClick className="h-4 w-4 text-atlas-brass" />
-                <span>Slide the folio &mdash; select a plate to inspect</span>
+                <span>Slide the strip &mdash; select a guide to inspect</span>
               </div>
               <div className="flex items-center gap-2">
                 <span className="mr-2 font-mono text-[11px] text-atlas-faint">
                   {String(focusIndex + 1).padStart(2, "0")} / {plates.length}
                 </span>
                 <button
-                  aria-label="Previous plate"
+                  aria-label="Previous guide"
                   className="cursor-pointer border border-atlas-outline bg-atlas-container p-2 text-atlas-dim transition-colors hover:border-atlas-brass/60 hover:text-atlas-brass disabled:cursor-not-allowed disabled:opacity-40"
                   disabled={focusIndex === 0}
                   onClick={() => scrollStrip(-1)}
@@ -102,7 +102,7 @@ export function AtlasExplore({
                   <ChevronLeft className="h-4 w-4" />
                 </button>
                 <button
-                  aria-label="Next plate"
+                  aria-label="Next guide"
                   className="cursor-pointer border border-atlas-outline bg-atlas-container p-2 text-atlas-dim transition-colors hover:border-atlas-brass/60 hover:text-atlas-brass disabled:cursor-not-allowed disabled:opacity-40"
                   disabled={focusIndex === plates.length - 1}
                   onClick={() => scrollStrip(1)}
@@ -115,11 +115,11 @@ export function AtlasExplore({
 
             <div
               className="no-scrollbar -mx-6 flex snap-x snap-mandatory gap-5 overflow-x-auto px-6 pb-6 sm:-mx-12 sm:px-12"
-              ref={stripRef}
+              id="atlas-filmstrip"
             >
               {plates.map((item, index) => (
                 <button
-                  aria-label={`Inspect plate ${item.shortTitle}`}
+                  aria-label={`Inspect guide ${item.shortTitle}`}
                   className={`group relative w-64 shrink-0 snap-center border p-3 text-left transition-colors sm:w-72 ${
                     index === focusIndex
                       ? "border-atlas-brass/70 bg-atlas-surface"
@@ -134,7 +134,7 @@ export function AtlasExplore({
                 >
                   <div className="relative aspect-[4/3] overflow-hidden bg-atlas-abyss">
                     <Image
-                      alt={`${item.title} — cartographic survey plate`}
+                      alt={`${item.title} — travel guide plate`}
                       className={`object-cover transition-all duration-700 ${
                         index === focusIndex
                           ? "scale-100 opacity-95 contrast-105"
@@ -145,14 +145,17 @@ export function AtlasExplore({
                       src={item.image}
                     />
                     <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-atlas-abyss/85 via-transparent to-transparent" />
-                    <span className="absolute bottom-2 left-2 font-mono text-[9px] tracking-widest text-atlas-brass/90">
-                      {item.plateNo.replace("PLATE NO. ", "PL. ")}
+                    <span aria-hidden className="absolute bottom-2 left-2 text-lg leading-none">
+                      {item.badge}
+                    </span>
+                    <span className="absolute bottom-2 right-2 font-mono text-[9px] tracking-widest text-atlas-brass/90">
+                      {item.plateNo.replace("PLATE NO. ", "NO. ")}
                     </span>
                   </div>
                   <div className="pt-3">
                     <div className="flex items-center justify-between font-mono text-[10px] text-atlas-faint">
                       <span className="uppercase tracking-widest">{item.sector}</span>
-                      <span className="text-atlas-brass/80">{item.temp}</span>
+                      <span className="text-atlas-brass/80">{item.sites} sites</span>
                     </div>
                     <h3
                       className={`mt-1.5 font-atlas-serif text-lg leading-snug transition-colors ${
@@ -168,42 +171,39 @@ export function AtlasExplore({
                     </p>
                   </div>
                   {index === focusIndex && (
-                    <span
-                      aria-hidden
-                      className="absolute inset-x-3 top-0 h-0.5 bg-atlas-brass"
-                    />
+                    <span aria-hidden className="absolute inset-x-3 top-0 h-0.5 bg-atlas-brass" />
                   )}
                 </button>
               ))}
             </div>
           </section>
 
-          {/* ============ SECTION 3: FOCUSED PLATE INSPECTOR ============ */}
+          {/* ============ SECTION 3: FOCUSED GUIDE INSPECTOR ============ */}
           <section className="border-b border-atlas-outline-soft pb-32 pt-14" id="folio-inspector">
             <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-12 lg:gap-14">
               {/* Left: the focused photographic plate */}
               <div className="lg:col-span-7">
                 <div className="photo-mount relative border border-atlas-outline bg-atlas-abyss p-3.5 shadow-2xl sm:p-4">
-                  {/* Archival stamp seal */}
+                  {/* Location stamp seal */}
                   <div
                     className="pointer-events-none absolute -right-3 -top-3 z-30 select-none"
                     style={{ transform: "rotate(3deg)" }}
                   >
                     <div className="flex h-20 w-20 flex-col items-center justify-center rounded-full border-2 border-dashed border-atlas-terra/80 bg-[#140b0d]/95 p-1 text-center shadow-2xl">
-                      <span className="font-mono text-[8px] uppercase leading-tight tracking-tighter text-atlas-terra-bright">
-                        {plate.sealSector}
+                      <span aria-hidden className="my-0.5 text-xl leading-none">{plate.badge}</span>
+                      <span className="border-y border-atlas-terra/40 px-1 text-[9px] font-bold uppercase tracking-widest text-atlas-terra-bright">
+                        Guide
                       </span>
-                      <span className="my-0.5 border-y border-atlas-terra/40 text-[10px] font-bold uppercase tracking-widest text-atlas-terra-bright">
-                        Verified
+                      <span className="font-mono text-[7px] text-atlas-terra">
+                        {plate.sealNo}
                       </span>
-                      <span className="font-mono text-[7px] text-atlas-terra">{plate.sealNo}</span>
                     </div>
                   </div>
 
                   {/* Image viewport with waypoint pins */}
                   <div className="relative aspect-[5/4] select-none overflow-hidden bg-atlas-abyss sm:aspect-[16/11]">
                     <Image
-                      alt={`${plate.title} — cartographic survey plate`}
+                      alt={`${plate.title} — travel guide plate`}
                       className="object-cover opacity-90 contrast-105"
                       fill
                       key={plate.slug}
@@ -219,7 +219,7 @@ export function AtlasExplore({
                         key={`${plate.slug}-${item.id}`}
                         onClick={() => setActivePin(item.id)}
                         style={{ top: item.top, left: item.left }}
-                        title={`Inspect Waypoint ${item.label}`}
+                        title={`Inspect ${item.label}`}
                         type="button"
                       >
                         <PinDot tone={item.tone} />
@@ -249,7 +249,7 @@ export function AtlasExplore({
                   </div>
                 </div>
 
-                {/* Waypoint callout / marginalia */}
+                {/* Waypoint callout under the plate */}
                 <div className="mt-6 border-l-2 border-atlas-brass bg-atlas-surface p-4.5 transition-all duration-300">
                   <div className="flex items-center gap-2 font-atlas-label text-[10px] font-semibold uppercase tracking-widest text-atlas-brass">
                     <Crosshair className="h-[14px] w-[14px]" />
@@ -261,43 +261,28 @@ export function AtlasExplore({
                 </div>
               </div>
 
-              {/* Right: dossier + observation log */}
+              {/* Right: honest-guide dossier + top picks */}
               <div className="space-y-6 lg:col-span-5">
                 <DossierCard plate={plate} onOpenDrawer={() => setDrawerOpen(true)} />
-                <div className="relative border border-atlas-outline bg-atlas-panel p-5">
-                  <div className="mb-2 flex items-center justify-between">
-                    <span className="font-atlas-label text-[10px] uppercase tracking-widest text-atlas-faint">
-                      Astronomical &amp; Acoustic Log
-                    </span>
-                    <span className="font-atlas-hand text-lg leading-none text-atlas-brass">
-                      &#10022;
-                    </span>
-                  </div>
-                  <p className="font-atlas-hand text-lg leading-relaxed text-atlas-parchment">
-                    {plate.astronomy}
-                  </p>
-                </div>
-                <div className="flex items-center justify-between border border-atlas-outline-soft bg-atlas-panel p-4">
+                <TopPicksCard plate={plate} />
+                <button
+                  className="flex w-full cursor-pointer items-center justify-between border border-atlas-outline-soft bg-atlas-panel p-4 text-left transition-colors hover:border-atlas-brass/50 disabled:cursor-not-allowed disabled:opacity-40"
+                  disabled={focusIndex === plates.length - 1}
+                  onClick={() => scrollStrip(1)}
+                  type="button"
+                >
                   <span className="font-atlas-label text-[10px] uppercase tracking-widest text-atlas-faint">
-                    Continue the traverse
+                    Next guide
                   </span>
-                  <button
-                    className="group inline-flex cursor-pointer items-center gap-2 font-atlas-label text-xs uppercase tracking-widest text-atlas-brass transition-colors hover:text-atlas-brass-bright disabled:cursor-not-allowed disabled:opacity-40"
-                    disabled={focusIndex === plates.length - 1}
-                    onClick={() => scrollStrip(1)}
-                    type="button"
-                  >
-                    <span>Next plate</span>
-                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                  </button>
-                </div>
+                  <ChevronRight className="h-4 w-4 text-atlas-brass" />
+                </button>
               </div>
             </div>
           </section>
 
-          {/* ============ SECTIONS 4 & 5: dispatches + register ============ */}
-          <DispatchesSection dispatches={dispatches} />
-          <RegisterSection />
+          {/* ============ SECTIONS 4 & 5: field notes + planner ============ */}
+          <FieldNotesSection notes={notes} />
+          <PlanSection destinations={plates} />
         </div>
       </main>
 
@@ -308,7 +293,7 @@ export function AtlasExplore({
       />
 
       <span className="sr-only" role="status">
-        {`Inspecting ${plate.plateNo} — ${plate.shortTitle}, plate ${focusIndex + 1} of ${plates.length}`}
+        {`Inspecting ${plate.plateNo} — ${plate.shortTitle}, guide ${focusIndex + 1} of ${plates.length}`}
       </span>
     </FolioChrome>
   );

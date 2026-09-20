@@ -1,20 +1,20 @@
 import type { Metadata } from "next";
 import { AtlasExplore } from "@/components/atlas-explore";
-import { ATLAS_DISPATCHES, ATLAS_PLATES } from "@/lib/atlas-plates";
+import { ATLAS_PLATES, FIELD_NOTES } from "@/lib/atlas-plates";
 
 export const metadata: Metadata = {
-  title: "The Grand Survey — Complete Plate Register",
+  title: "Explore All — The full destination register",
   description:
-    "Slide through the full register of 31 survey plates: waypoint annotations, expedition dossiers, and instrument logs for every destination in the Atlas archive.",
+    "Slide through the full register of 31 destinations: honest pros and cons, curated sights, coordinates, and trip planning for every guide in the Atlas.",
   alternates: { canonical: "/explore" },
   openGraph: {
-    title: "The Grand Survey — Complete Plate Register",
+    title: "Explore All — The full destination register",
     description:
-      "Slide through the full register of 31 survey plates: waypoint annotations, expedition dossiers, and instrument logs for every destination in the Atlas archive.",
+      "Slide through the full register of 31 destinations: honest pros and cons, curated sights, coordinates, and trip planning.",
     type: "website",
   },
 };
 
 export default function ExplorePage() {
-  return <AtlasExplore plates={ATLAS_PLATES} dispatches={ATLAS_DISPATCHES} />;
+  return <AtlasExplore plates={ATLAS_PLATES} notes={FIELD_NOTES} />;
 }

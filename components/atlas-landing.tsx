@@ -1,26 +1,27 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { Crosshair, MousePointerClick } from "lucide-react";
-import type { AtlasDispatch, AtlasPlate } from "@/lib/atlas-plates";
+import type { AtlasPlate, FieldNote } from "@/lib/atlas-plates";
 import {
   DossierCard,
-  DispatchesSection,
+  FieldNotesSection,
   FolioChrome,
   NotebookDrawer,
   PinDot,
   PLATE_CHANGE_MS,
   PROGRESS_SPAN,
-  RegisterSection,
+  PlanSection,
+  TopPicksCard,
 } from "@/components/atlas-chrome";
 
 export function AtlasLanding({
   plates,
-  dispatches,
+  notes,
 }: {
   plates: AtlasPlate[];
-  dispatches: AtlasDispatch[];
+  notes: FieldNote[];
 }) {
   const [activePlate, setActivePlate] = useState(0);
   const [activePin, setActivePin] = useState(1);
@@ -33,7 +34,7 @@ export function AtlasLanding({
 
   /* ----- 10-second slideshow -------------------------------------- */
   /* Advances automatically; pauses when the tab is hidden, the user  */
-  /* hovers the inspector, or the notebook drawer is open.            */
+  /* hovers the inspector, or the trip-notes drawer is open.          */
   const isPaused = paused || drawerOpen;
   useEffect(() => {
     if (isPaused || typeof window === "undefined") return;
@@ -50,13 +51,6 @@ export function AtlasLanding({
     setActivePlate(index);
     setActivePin(1);
   };
-
-  const tabLabel = useMemo(
-    () =>
-      (item: AtlasPlate, index: number) =>
-        `${String(index + 1).padStart(2, "0")}. ${item.shortTitle}`,
-    [],
-  );
 
   return (
     <FolioChrome activePlate={plate} onOpenNotebook={() => setDrawerOpen(true)}>
@@ -79,7 +73,7 @@ export function AtlasLanding({
             </div>
             <div className="max-w-3xl space-y-4">
               <span className="block font-atlas-label text-[11px] font-semibold uppercase tracking-[0.3em] text-atlas-brass/90">
-                Terra Incognita &bull; Expeditionary Folio
+                Honest travel guides &bull; beyond the obvious
               </span>
               <h1 className="min-h-[2.3em] font-atlas-serif text-4xl font-normal leading-[1.15] tracking-tight text-atlas-bright transition-all duration-500 sm:text-5xl md:text-[54px]">
                 {plate.title}
@@ -110,7 +104,7 @@ export function AtlasLanding({
                     onClick={() => selectPlate(index)}
                     type="button"
                   >
-                    {tabLabel(item, index)}
+                    {String(index + 1).padStart(2, "0")}. {item.shortTitle}
                     {index === activePlate && !isPaused && (
                       <span
                         aria-hidden
@@ -133,19 +127,19 @@ export function AtlasLanding({
               {/* Left: the photographic plate with stacked crossfading images */}
               <div className="lg:col-span-7">
                 <div className="photo-mount relative border border-atlas-outline bg-atlas-abyss p-3.5 shadow-2xl sm:p-4">
-                  {/* Archival stamp seal */}
+                  {/* Location stamp seal */}
                   <div
                     className="pointer-events-none absolute -right-3 -top-3 z-30 select-none"
                     style={{ transform: "rotate(3deg)" }}
                   >
                     <div className="flex h-20 w-20 flex-col items-center justify-center rounded-full border-2 border-dashed border-atlas-terra/80 bg-[#140b0d]/95 p-1 text-center shadow-2xl">
-                      <span className="font-mono text-[8px] uppercase leading-tight tracking-tighter text-atlas-terra-bright">
-                        {plate.sealSector}
+                      <span aria-hidden className="my-0.5 text-xl leading-none">{plate.badge}</span>
+                      <span className="border-y border-atlas-terra/40 px-1 text-[9px] font-bold uppercase tracking-widest text-atlas-terra-bright">
+                        Guide
                       </span>
-                      <span className="my-0.5 border-y border-atlas-terra/40 text-[10px] font-bold uppercase tracking-widest text-atlas-terra-bright">
-                        Verified
+                      <span className="font-mono text-[7px] text-atlas-terra">
+                        {plate.sealNo}
                       </span>
-                      <span className="font-mono text-[7px] text-atlas-terra">{plate.sealNo}</span>
                     </div>
                   </div>
 
@@ -153,7 +147,7 @@ export function AtlasLanding({
                   <div className="relative aspect-[5/4] select-none overflow-hidden bg-atlas-abyss sm:aspect-[16/11]">
                     {plates.map((item, index) => (
                       <Image
-                        alt={`${item.title} — cartographic survey plate`}
+                        alt={`${item.title} — travel guide plate`}
                         className={`object-cover transition-opacity duration-1000 ${
                           index === activePlate ? "opacity-90 contrast-105" : "opacity-0"
                         }`}
@@ -172,7 +166,7 @@ export function AtlasLanding({
                         key={`${plate.slug}-${item.id}`}
                         onClick={() => setActivePin(item.id)}
                         style={{ top: item.top, left: item.left }}
-                        title={`Inspect Waypoint ${item.label}`}
+                        title={`Inspect ${item.label}`}
                         type="button"
                       >
                         <PinDot tone={item.tone} />
@@ -202,7 +196,7 @@ export function AtlasLanding({
                   </div>
                 </div>
 
-                {/* Waypoint callout / marginalia */}
+                {/* Waypoint callout under the plate */}
                 <div className="mt-6 border-l-2 border-atlas-brass bg-atlas-surface p-4.5 transition-all duration-300">
                   <div className="flex items-center gap-2 font-atlas-label text-[10px] font-semibold uppercase tracking-widest text-atlas-brass">
                     <Crosshair className="h-[14px] w-[14px]" />
@@ -214,29 +208,17 @@ export function AtlasLanding({
                 </div>
               </div>
 
-              {/* Right: dossier + observation log */}
+              {/* Right: honest-guide dossier + top picks */}
               <div className="space-y-6 lg:col-span-5">
                 <DossierCard plate={plate} onOpenDrawer={() => setDrawerOpen(true)} />
-                <div className="relative border border-atlas-outline bg-atlas-panel p-5">
-                  <div className="mb-2 flex items-center justify-between">
-                    <span className="font-atlas-label text-[10px] uppercase tracking-widest text-atlas-faint">
-                      Astronomical &amp; Acoustic Log
-                    </span>
-                    <span className="font-atlas-hand text-lg leading-none text-atlas-brass">
-                      &#10022;
-                    </span>
-                  </div>
-                  <p className="font-atlas-hand text-lg leading-relaxed text-atlas-parchment">
-                    {plate.astronomy}
-                  </p>
-                </div>
+                <TopPicksCard plate={plate} />
               </div>
             </div>
           </section>
 
-          {/* ============ SECTIONS 3 & 4: dispatches + register ============ */}
-          <DispatchesSection dispatches={dispatches} />
-          <RegisterSection />
+          {/* ============ SECTIONS 3 & 4: field notes + planner ============ */}
+          <FieldNotesSection notes={notes} />
+          <PlanSection destinations={plates} />
         </div>
       </main>
 
@@ -247,7 +229,7 @@ export function AtlasLanding({
       />
 
       <span className="sr-only" role="status">
-        {`Now showing ${plate.plateNo} — ${plate.shortTitle}, plate ${activePlate + 1} of ${plates.length}`}
+        {`Now showing ${plate.plateNo} — ${plate.shortTitle}, guide ${activePlate + 1} of ${plates.length}`}
       </span>
     </FolioChrome>
   );
