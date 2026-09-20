@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, MapPin } from "lucide-react";
+import { ArrowLeft, Check, MapPin, TriangleAlert } from "lucide-react";
 import {
-  DESTINATIONS,
   DESTINATION_SLUGS,
+  DESTINATIONS,
   getDestinationBySlug,
   getDestinationHighlights,
 } from "@/lib/destinations";
@@ -78,71 +78,75 @@ export default async function DestinationPage({ params }: PageProps) {
   };
 
   return (
-    <main className="min-h-screen bg-deep text-paper">
+    <main className="min-h-screen bg-[#030b19] text-white">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <div className="mx-auto max-w-4xl px-6 pt-12 md:px-10">
+      <div className="mx-auto max-w-4xl px-6 py-12 md:px-10">
         <Link
           href="/destinations"
-          className="inline-flex items-center gap-2 text-sm text-muted-w transition hover:text-teal"
+          className="mb-8 inline-flex items-center gap-2 text-sm text-white/60 transition hover:text-white"
         >
           <ArrowLeft className="h-4 w-4" />
           All destinations
         </Link>
 
-        <div className="mt-6 flex items-center gap-2 text-sm text-muted-w">
-          <span aria-hidden className="text-2xl">
+        <div className="flex flex-wrap items-center gap-3 text-sm text-white/60">
+          <span aria-hidden className="text-3xl">
             {destination.flag}
           </span>
-          <MapPin className="h-3.5 w-3.5" aria-hidden />
-          {destination.country}
+          <p className="flex items-center gap-1.5 tracking-[0.24em]">
+            <MapPin className="h-3.5 w-3.5" />
+            {destination.country.toUpperCase()}
+          </p>
         </div>
 
-        <h1 className="mt-2 font-serif text-4xl tracking-tight md:text-5xl">
+        <h1 className="mt-3 text-4xl font-bold tracking-tight md:text-5xl">
           {destination.name}
         </h1>
-      </div>
 
-      <figure className="relative mt-8 h-[320px] w-full md:h-[440px]">
-        <Image
-          src={destination.heroImage}
-          alt={`View of ${destination.name}, ${destination.country}`}
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover"
-        />
-      </figure>
+        <div className="relative mt-8 h-64 overflow-hidden rounded-2xl border border-white/10 md:h-80">
+          <Image
+            src={destination.heroImage}
+            alt={`View of ${destination.name}, ${destination.country}`}
+            fill
+            priority
+            sizes="(min-width: 896px) 896px, 100vw"
+            className="object-cover"
+          />
+        </div>
 
-      <div className="mx-auto max-w-4xl px-6 py-12 md:px-10">
-        <div className="grid gap-10 md:grid-cols-2 md:gap-0 md:divide-x md:divide-border">
-          <section className="md:pr-10">
-            <h2 className="font-serif text-2xl">Why go</h2>
-            <ul className="mt-4 space-y-2.5 text-sm leading-relaxed text-muted-w">
-              {destination.pros.map((pro, index) => (
-                <li key={index} className="flex gap-2.5">
-                  <span
-                    aria-hidden
-                    className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-teal"
-                  />
+        <div className="mt-10 grid gap-4 md:grid-cols-2">
+          <section className="rounded-xl border border-emerald-400/20 bg-emerald-400/[0.06] p-5">
+            <h2 className="mb-3 flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-emerald-300">
+              <Check className="h-4 w-4" />
+              Why go
+            </h2>
+            <ul className="space-y-2 text-sm text-white/75">
+              {destination.pros.map((pro) => (
+                <li key={pro} className="flex gap-2">
+                  <span aria-hidden className="text-emerald-300">
+                    •
+                  </span>
                   {pro}
                 </li>
               ))}
             </ul>
           </section>
 
-          <section className="md:pl-10">
-            <h2 className="font-serif text-2xl">Know before you go</h2>
-            <ul className="mt-4 space-y-2.5 text-sm leading-relaxed text-muted-w">
-              {destination.cons.map((con, index) => (
-                <li key={index} className="flex gap-2.5">
-                  <span
-                    aria-hidden
-                    className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-terra"
-                  />
+          <section className="rounded-xl border border-red-400/20 bg-red-400/[0.06] p-5">
+            <h2 className="mb-3 flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-red-300">
+              <TriangleAlert className="h-4 w-4" />
+              Know before you go
+            </h2>
+            <ul className="space-y-2 text-sm text-white/75">
+              {destination.cons.map((con) => (
+                <li key={con} className="flex gap-2">
+                  <span aria-hidden className="text-red-300">
+                    •
+                  </span>
                   {con}
                 </li>
               ))}
@@ -150,43 +154,46 @@ export default async function DestinationPage({ params }: PageProps) {
           </section>
         </div>
 
-        <section className="mt-14">
-          <h2 className="font-serif text-2xl">Places that matter</h2>
-          <ul className="mt-5 grid gap-x-12 sm:grid-cols-2">
+        <section className="mt-10">
+          <h2 className="text-2xl font-semibold">Places that matter</h2>
+          <div className="mt-4 grid gap-3 sm:grid-cols-2">
             {destination.places.map((place) => (
-              <li key={place.name} className="border-t border-border py-4">
+              <article
+                key={place.name}
+                className="rounded-xl border border-white/10 bg-[#071225] p-4"
+              >
                 <h3 className="text-base font-semibold">
                   <span aria-hidden className="mr-2">
                     {place.icon}
                   </span>
                   {place.name}
                 </h3>
-                <p className="mt-1 text-sm leading-relaxed text-muted-w">
-                  {place.description}
-                </p>
-              </li>
+                <p className="mt-1 text-sm text-white/60">{place.description}</p>
+              </article>
             ))}
-          </ul>
+          </div>
         </section>
 
-        <section className="mt-14 border-l-2 border-gold pl-6">
-          <h2 className="font-serif text-2xl">The Wander verdict</h2>
-          <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-w">
+        <section className="mt-10 rounded-xl border border-white/10 bg-[#081327] p-5">
+          <h2 className="text-lg font-semibold">The Wander verdict</h2>
+          <p className="mt-2 text-sm text-white/70">
             {destination.name} shines for travelers who value{" "}
-            {highlights.join(", ").toLowerCase()}. Weigh the pros above against
+            {highlights.join(", ").toLowerCase()}. Weigh the cons above against
             what you actually want from the trip — and if the crowds put you
             off, check the guides nearby for quieter alternatives.
           </p>
         </section>
 
-        <nav className="mt-14 border-t border-border pt-8" aria-label="More destinations">
-          <h2 className="text-sm font-semibold">More places</h2>
+        <nav className="mt-12 border-t border-white/10 pt-8" aria-label="More destinations">
+          <h2 className="text-sm font-semibold uppercase tracking-wider text-white/50">
+            Keep exploring
+          </h2>
           <div className="mt-4 flex flex-wrap gap-2">
             {DESTINATIONS.filter((d) => d.id !== destination.id).map((d) => (
               <Link
                 key={d.id}
                 href={`/destinations/${d.id}`}
-                className="rounded-full border border-border px-3 py-1.5 text-xs text-muted-w transition hover:border-teal hover:text-teal"
+                className="rounded-full border border-white/15 px-3 py-1.5 text-xs text-white/70 transition hover:border-white/35 hover:text-white"
               >
                 <span aria-hidden className="mr-1">
                   {d.flag}

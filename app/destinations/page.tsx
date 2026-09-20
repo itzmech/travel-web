@@ -1,75 +1,67 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
+import { ArrowLeft, MapPin } from "lucide-react";
 import { DESTINATIONS } from "@/lib/destinations";
 
 export const metadata: Metadata = {
-  title: "All cities",
+  title: "All Destinations — Wander",
   description:
-    "30 city guides with specific pros, cons, and places — from Paris to Mumbai.",
+    "Browse every Wander destination guide: honest pros and cons, must-see places, and hidden gems for 30 cities worldwide.",
   alternates: { canonical: "/destinations" },
 };
 
 export default function DestinationsIndexPage() {
   return (
-    <main className="min-h-screen bg-deep text-paper">
+    <main className="min-h-screen bg-[#030b19] text-white">
       <div className="mx-auto max-w-6xl px-6 py-14 md:px-10">
         <Link
           href="/"
-          className="text-sm text-muted-w hover:text-teal hover:underline"
+          className="mb-8 inline-flex items-center gap-2 text-sm text-white/60 transition hover:text-white"
         >
-          Home
+          <ArrowLeft className="h-4 w-4" />
+          Back to home
         </Link>
 
-        <h1 className="mt-8 font-serif text-4xl tracking-tight md:text-5xl">
-          All cities
+        <h1 className="text-4xl font-bold tracking-tight md:text-5xl">
+          All destinations
         </h1>
-        <p className="mt-3 max-w-xl text-muted-w">
-          {DESTINATIONS.length} guides — each covers when to go, what to skip,
-          and five places we&apos;d walk to on a free afternoon.
+        <p className="mt-3 max-w-2xl text-sm text-white/60">
+          {DESTINATIONS.length} city guides with honest pros, cons, and the
+          places actually worth your time.
         </p>
 
-        <ul className="mt-14 space-y-2">
-          {DESTINATIONS.map((destination, index) => (
-            <li key={destination.id}>
-              <Link
-                href={`/destinations/${destination.id}`}
-                className="group flex flex-col gap-5 py-8 sm:flex-row sm:items-center sm:gap-6"
-              >
-                {index % 3 === 0 ? (
-                  <div className="relative h-56 w-full shrink-0 overflow-hidden sm:h-40 sm:w-60">
-                    <Image
-                      src={destination.heroImage}
-                      alt={destination.name}
-                      fill
-                      sizes="(min-width: 640px) 240px, 100vw"
-                      className="object-cover"
-                    />
-                  </div>
-                ) : (
-                  <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-md">
-                    <Image
-                      src={destination.heroImage}
-                      alt={destination.name}
-                      fill
-                      sizes="64px"
-                      className="object-cover"
-                    />
-                  </div>
-                )}
-                <div className="min-w-0 flex-1">
-                  <p className="text-sm text-muted-w">{destination.country}</p>
-                  <h2 className="mt-0.5 font-serif text-2xl group-hover:text-teal">
-                    {destination.name}
-                  </h2>
-                  <p className="mt-1 line-clamp-1 text-sm text-muted-w">
-                    {destination.pros[0]}
-                  </p>
-                </div>
-              </Link>
-            </li>
+        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {DESTINATIONS.map((destination) => (
+            <Link
+              key={destination.id}
+              href={`/destinations/${destination.id}`}
+              className="group overflow-hidden rounded-xl border border-white/10 bg-[#071225] transition hover:border-white/25"
+            >
+              <div className="relative h-40 overflow-hidden">
+                <Image
+                  src={destination.heroImage}
+                  alt={destination.name}
+                  fill
+                  sizes="(min-width: 1024px) 384px, (min-width: 640px) 50vw, 100vw"
+                  className="object-cover transition duration-300 group-hover:scale-105"
+                />
+              </div>
+              <div className="p-4">
+                <p className="flex items-center gap-1.5 text-[10px] tracking-[0.24em] text-white/45">
+                  <MapPin className="h-3 w-3" />
+                  {destination.country.toUpperCase()}
+                </p>
+                <h2 className="mt-1 text-xl font-semibold">
+                  <span aria-hidden className="mr-1.5">
+                    {destination.flag}
+                  </span>
+                  {destination.name}
+                </h2>
+              </div>
+            </Link>
           ))}
-        </ul>
+        </div>
       </div>
     </main>
   );

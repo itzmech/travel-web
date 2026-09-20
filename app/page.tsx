@@ -1,89 +1,66 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
+import { Globe } from "lucide-react";
 import { DestinationSearch } from "@/components/destination-search";
 import HeroEarthLazy from "@/components/hero-earth-lazy";
 import { DESTINATIONS } from "@/lib/destinations";
 
 const navItems = [
-  { label: "All cities", href: "/destinations" },
-  { label: "Lesser-known", href: "/#lesser-known" },
+  { label: "Destinations", href: "/destinations" },
+  { label: "Hidden Gems", href: "/destinations#hidden-gems" },
+  { label: "Guides", href: "/destinations#guides" },
+  { label: "Itineraries", href: "/destinations#itineraries" },
 ];
 
-const featuredIds = ["santorini", "bali", "tokyo"];
-const featured = featuredIds.map(
+// Drawn from the destinations dataset instead of a separate hardcoded list.
+const trendingIds = ["santorini", "bali", "tokyo"];
+const trending = trendingIds.map(
   (id) => DESTINATIONS.find((d) => d.id === id)!
 );
 
-const lesserKnown = [
-  {
-    name: "Svaneti",
-    country: "Georgia",
-    detail:
-      "Stone watchtowers above the Caucasus — reachable by a winding mountain road from Kutaisi.",
-  },
-  {
-    name: "Faroe Islands",
-    country: "Denmark",
-    detail:
-      "Grass-roofed villages on cliffs; book the Mykines ferry weeks ahead in summer.",
-  },
-  {
-    name: "Lofoten",
-    country: "Norway",
-    detail:
-      "Arctic beaches and cod-drying racks; rent a car in Svolvær and drive the E10.",
-  },
-  {
-    name: "Gásadalur",
-    country: "Faroe Islands",
-    detail:
-      "Múlafossur falls drop straight into the Atlantic — the village got its first road in 2004.",
-  },
-  {
-    name: "Matera",
-    country: "Italy",
-    detail:
-      "Sassi cave dwellings carved into limestone; stay in a converted grotto hotel.",
-  },
-  {
-    name: "Wadi Rum",
-    country: "Jordan",
-    detail:
-      "Red sandstone valleys; most visitors camp one night with a Bedouin guide from the village.",
-  },
+const hiddenPlaces = [
+  { name: "Svaneti", teaser: "Medieval watchtowers in the Caucasus — Georgia's wildest region." },
+  { name: "Faroe Islands", teaser: "Grass-roofed villages above the North Atlantic." },
+  { name: "Lofoten", teaser: "Arctic surfing and midnight sun in northern Norway." },
+  { name: "Gásadalur", teaser: "A waterfall-plunging village only road-connected since 2004." },
+  { name: "Matera", teaser: "Cave dwellings inhabited for 9,000 years in southern Italy." },
+  { name: "Wadi Rum", teaser: "Martian desert valleys best explored by camel or balloon." },
 ];
 
 export const metadata: Metadata = {
-  title: "Wander — City guides that name the crowds and the corners",
+  title: "Wander — Explore the world beyond the obvious",
   description:
-    "Practical guides to 30 cities: when to visit, what to skip, and the neighborhoods worth a half-day.",
+    "Discover overrated traps and underrated hidden gems for every destination on Earth. Honest travel guides with pros, cons, and the places that matter.",
   alternates: { canonical: "/" },
   openGraph: {
-    title: "Wander — City guides that name the crowds and the corners",
+    title: "Wander — Explore the world beyond the obvious",
     description:
-      "Pros, cons, and specific places for 30 cities — Paris, Tokyo, Bali, and more.",
+      "Honest travel guides: overrated traps vs. hidden gems for 30 destinations worldwide.",
     type: "website",
   },
 };
 
 export default function Home() {
-  const [lead, ...rest] = featured;
-
   return (
-    <main className="min-h-screen bg-deep text-paper">
-      <section className="relative border-b border-border">
-        <div className="relative mx-auto max-w-6xl px-6 pb-24 pt-8 md:px-10 md:pb-32">
+    <main className="min-h-screen bg-[#030b19] text-white">
+      <section className="relative overflow-hidden border-b border-white/5">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_80%_18%,rgba(53,132,255,0.18),transparent_42%)]" />
+        <div className="relative mx-auto max-w-6xl px-6 pb-20 pt-7 md:px-10 md:pb-24">
           <header className="flex items-center justify-between">
-            <Link href="/" className="font-serif text-lg tracking-tight">
-              Wander
+            <Link
+              href="/"
+              className="flex items-center gap-2 text-sm font-semibold"
+            >
+              <Globe className="h-4 w-4 text-white/90" />
+              <span>Wander</span>
             </Link>
-            <nav className="hidden gap-8 text-sm text-muted-w md:flex">
+            <nav className="hidden gap-7 text-xs text-white/80 md:flex">
               {navItems.map((item) => (
                 <Link
                   key={item.label}
                   href={item.href}
-                  className="hover:text-paper"
+                  className="transition hover:text-white"
                 >
                   {item.label}
                 </Link>
@@ -91,21 +68,19 @@ export default function Home() {
             </nav>
             <Link
               href="/destinations"
-              className="text-sm text-teal hover:underline"
+              className="rounded-full border border-white/25 px-5 py-2 text-xs font-semibold transition hover:bg-white/10"
             >
-              Browse guides
+              Start Exploring
             </Link>
           </header>
 
-          <div className="hero-in relative mt-16 max-w-xl md:mt-24">
-            <h1 className="font-serif text-5xl leading-[1.08] tracking-tight md:text-[3.75rem]">
-              Thirty cities, written like you&apos;d ask a friend who lives
-              there.
+          <div className="relative mt-20 max-w-xl">
+            <h1 className="text-5xl font-bold leading-tight tracking-tight md:text-6xl">
+              Explore the world
             </h1>
-            <p className="mt-6 max-w-md text-base leading-relaxed text-muted-w">
-              We note the rush-hour crush in Tokyo, the cruise-ship days in
-              Santorini, and the rice-terrace walks in Bali that most day tours
-              skip.
+            <p className="mt-6 text-sm text-white/65">
+              Discover overrated traps and underrated gems for every destination
+              on Earth.
             </p>
             <div className="mt-8">
               <DestinationSearch />
@@ -113,164 +88,146 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="pointer-events-none absolute right-[-120px] top-20 hidden h-[580px] w-[580px] opacity-90 md:block">
+        <div className="pointer-events-none absolute right-[-140px] top-24 hidden h-[620px] w-[620px] opacity-95 md:block">
           <HeroEarthLazy />
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-6 py-16 md:px-10 md:py-20">
-        <div className="mb-10 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-          <h2 className="font-serif text-3xl md:text-4xl">
-            Three cities people keep opening
-          </h2>
+      <section className="mx-auto max-w-6xl px-6 py-12 md:px-10">
+        <div className="mb-6 flex items-center justify-between">
+          <h2 className="text-3xl font-semibold">Trending destinations</h2>
           <Link
             href="/destinations"
-            className="text-sm text-teal hover:underline"
+            className="hidden text-xs text-white/60 transition hover:text-white md:block"
           >
-            All {DESTINATIONS.length} guides
+            View all {DESTINATIONS.length} →
           </Link>
         </div>
-
-        <div className="grid gap-8 md:grid-cols-12 md:gap-6">
-          <Link
-            href={`/destinations/${lead.id}`}
-            className="group md:col-span-7"
-          >
-            <div className="relative aspect-[4/3] overflow-hidden md:aspect-auto md:h-[420px]">
-              <Image
-                src={lead.heroImage}
-                alt={`${lead.name}, ${lead.country}`}
-                fill
-                priority
-                sizes="(min-width: 768px) 58vw, 100vw"
-                className="object-cover"
-              />
-              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-deep/90 to-transparent p-6 pt-16">
-                <p className="text-sm text-muted-w">{lead.country}</p>
-                <h3 className="mt-1 font-serif text-3xl">{lead.name}</h3>
+        <div className="grid gap-4 md:grid-cols-3">
+          {trending.map((item) => (
+            <Link
+              key={item.id}
+              href={`/destinations/${item.id}`}
+              className="group overflow-hidden rounded-xl border border-white/10 bg-[#071225] transition hover:border-white/25"
+            >
+              <div className="relative h-40 overflow-hidden">
+                <Image
+                  src={item.heroImage}
+                  alt={`${item.name}, ${item.country}`}
+                  fill
+                  sizes="(min-width: 768px) 384px, 100vw"
+                  className="object-cover transition duration-300 group-hover:scale-105"
+                />
               </div>
-            </div>
-          </Link>
-
-          <div className="flex flex-col gap-6 md:col-span-5 md:justify-end">
-            {rest.map((item) => (
-              <Link
-                key={item.id}
-                href={`/destinations/${item.id}`}
-                className="group flex gap-4 border-b border-border pb-6 last:border-0 last:pb-0"
-              >
-                <div className="relative h-24 w-24 shrink-0 overflow-hidden">
-                  <Image
-                    src={item.heroImage}
-                    alt={`${item.name}, ${item.country}`}
-                    fill
-                    sizes="96px"
-                    className="object-cover"
-                  />
-                </div>
-                <div className="py-1">
-                  <p className="text-sm text-muted-w">{item.country}</p>
-                  <h3 className="mt-0.5 font-serif text-xl">{item.name}</h3>
-                  <p className="mt-1 line-clamp-2 text-sm text-muted-w">
-                    {item.pros[0]}
-                  </p>
-                </div>
-              </Link>
-            ))}
-          </div>
+              <div className="p-4">
+                <p className="text-[10px] tracking-[0.24em] text-white/45">
+                  {item.country.toUpperCase()}
+                </p>
+                <h3 className="mt-1 text-2xl font-semibold">
+                  <span aria-hidden className="mr-1.5">
+                    {item.flag}
+                  </span>
+                  {item.name}
+                </h3>
+              </div>
+            </Link>
+          ))}
         </div>
       </section>
 
       <section
-        id="lesser-known"
-        className="border-y border-border bg-paper/[0.04]"
+        id="hidden-gems"
+        className="border-y border-white/5 bg-[#040d1d]"
       >
-        <div className="mx-auto max-w-6xl px-6 py-16 md:px-10 md:py-20">
-          <h2 className="max-w-lg font-serif text-3xl md:text-4xl">
-            Six places that rarely make the front page of a guidebook
+        <div className="mx-auto max-w-6xl px-6 py-14 md:px-10">
+          <h2 className="mb-8 text-center text-4xl font-semibold">
+            Places the internet forgot
           </h2>
-          <p className="mt-4 max-w-xl text-muted-w">
-            Not a bucket list — just corners we mention when someone asks for
-            somewhere quieter than Barcelona or cheaper than Reykjavik.
-          </p>
-
-          <ul className="mt-12 divide-y divide-border md:columns-2 md:gap-x-16">
-            {lesserKnown.map((place) => (
-              <li key={place.name} className="break-inside-avoid py-6 first:pt-0">
-                <h3 className="font-serif text-xl">
-                  {place.name}
-                  <span className="ml-2 text-base font-sans font-normal text-muted-w">
-                    {place.country}
-                  </span>
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-w">
-                  {place.detail}
-                </p>
-              </li>
+          <div className="grid gap-4 md:grid-cols-3">
+            {hiddenPlaces.map((place) => (
+              <article
+                key={place.name}
+                className="rounded-xl border border-white/10 bg-[#081327] p-4"
+              >
+                <p className="text-sm font-semibold">{place.name}</p>
+                <p className="mt-1 text-xs text-white/55">{place.teaser}</p>
+              </article>
             ))}
-          </ul>
+          </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-6 py-16 md:px-10 md:py-24">
-        <div className="max-w-2xl">
-          <h2 className="font-serif text-3xl md:text-4xl">
-            Read before you book the flight
-          </h2>
-          <p className="mt-4 text-base leading-relaxed text-muted-w">
-            Each guide lists five places we&apos;d actually walk to, four things
-            that might ruin your week if you ignore them, and the months when
-            the weather and the crowds align.
+      <section id="itineraries" className="mx-auto max-w-6xl px-6 py-16 text-center md:px-10">
+        <h2 className="text-5xl font-semibold">Plan your perfect trip</h2>
+        <p className="mx-auto mt-4 max-w-2xl text-sm text-white/60">
+          Start from an honest destination guide — the pros, the cons, and the
+          places actually worth your time.
+        </p>
+        <div className="mx-auto mt-8 max-w-4xl rounded-xl border border-white/10 bg-[#081328] p-6">
+          <p className="text-sm text-white/70">
+            Pick a place to begin — every guide includes what to see, what to
+            skip, and when to go.
           </p>
           <Link
             href="/destinations"
-            className="mt-8 inline-block border-b border-teal pb-0.5 text-teal hover:text-paper hover:border-paper"
+            className="mt-5 inline-block rounded-lg bg-[#16dca6] px-6 py-3 text-sm font-semibold text-[#033725] transition hover:brightness-110"
           >
-            Open the full list of {DESTINATIONS.length} cities
+            Browse destinations
           </Link>
         </div>
       </section>
 
-      <footer className="border-t border-border px-6 py-12 md:px-10">
-        <div className="mx-auto grid max-w-6xl gap-10 text-sm text-muted-w md:grid-cols-3">
+      <footer className="border-t border-white/5 px-6 py-12 md:px-10">
+        <div className="mx-auto grid max-w-6xl gap-10 text-sm text-white/65 md:grid-cols-4">
           <div>
-            <p className="font-serif text-lg text-paper">Wander</p>
-            <p className="mt-3 leading-relaxed">
-              City guides with the boring parts included — visa hassles, rainy
-              seasons, and the museum that&apos;s closed on Mondays.
+            <div className="mb-3 flex items-center gap-2 font-semibold text-white">
+              <Globe className="h-4 w-4" />
+              <span>Wander</span>
+            </div>
+            <p>
+              Stop blindly booking trips. Expose the world beyond the obvious
+              and discover hidden gems that matter.
             </p>
           </div>
           <div>
-            <p className="text-paper">Guides</p>
-            <ul className="mt-3 space-y-2">
+            <p className="mb-3 text-xs font-semibold text-white">PRODUCT</p>
+            <ul className="space-y-1">
               <li>
-                <Link href="/destinations" className="hover:text-paper">
-                  All cities
+                <Link href="/destinations" className="transition hover:text-white">
+                  Destinations
                 </Link>
               </li>
               <li>
-                <Link href="/#lesser-known" className="hover:text-paper">
-                  Lesser-known places
+                <Link href="/destinations#hidden-gems" className="transition hover:text-white">
+                  Hidden Gems
                 </Link>
               </li>
             </ul>
           </div>
           <div>
-            <p className="text-paper">Often opened</p>
-            <ul className="mt-3 space-y-2">
+            <p className="mb-3 text-xs font-semibold text-white">POPULAR GUIDES</p>
+            <ul className="space-y-1">
               {["paris", "tokyo", "rome"].map((id) => {
                 const d = DESTINATIONS.find((dest) => dest.id === id)!;
                 return (
                   <li key={id}>
                     <Link
                       href={`/destinations/${id}`}
-                      className="hover:text-paper"
+                      className="transition hover:text-white"
                     >
                       {d.name}
                     </Link>
                   </li>
                 );
               })}
+            </ul>
+          </div>
+          <div>
+            <p className="mb-3 text-xs font-semibold text-white">LEGAL</p>
+            <ul className="space-y-1 text-white/45">
+              <li>Privacy Policy</li>
+              <li>Terms of Service</li>
+              <li>Cookie Policy</li>
             </ul>
           </div>
         </div>

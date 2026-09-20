@@ -1,27 +1,25 @@
 import type { Metadata } from 'next'
-import { Playfair_Display, Source_Sans_3 } from 'next/font/google'
+import { Geist, Geist_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { getSiteUrl } from '@/lib/site-url'
 import './globals.css'
 
-const playfair = Playfair_Display({
-  subsets: ['latin'],
-  variable: '--font-display',
-  weight: ['400', '500', '600', '700'],
-})
+const geist = Geist({
+  subsets: ["latin"],
+  variable: "--font-geist-sans",
+});
 
-const sourceSans = Source_Sans_3({
-  subsets: ['latin'],
-  variable: '--font-body',
-})
+const geistMono = Geist_Mono({
+  subsets: ["latin"],
+  variable: "--font-geist-mono",
+});
 
 export const metadata: Metadata = {
   title: {
-    default: 'Wander — City guides that name the crowds and the corners',
+    default: 'Wander — Explore the world beyond the obvious',
     template: '%s — Wander',
   },
-  description:
-    'Practical guides to 30 cities: when to visit, what to skip, and the neighborhoods worth a half-day.',
+  description: 'Interactive 3D globe travel discovery. Explore destinations worldwide with immersive visuals and detailed insights.',
   metadataBase: new URL(getSiteUrl()),
   icons: {
     icon: [
@@ -48,8 +46,8 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${playfair.variable} ${sourceSans.variable}`}>
-      <body>
+    <html lang="en" className={`bg-[#0a0a0f] ${geist.variable} ${geistMono.variable}`}>
+      <body className="font-sans antialiased bg-[#0a0a0f]">
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>

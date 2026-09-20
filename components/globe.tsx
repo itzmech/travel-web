@@ -53,14 +53,14 @@ function DestinationMarker({
         }}
       >
         <sphereGeometry args={[0.015, 16, 16]} />
-        <meshBasicMaterial color={isSelected ? "#E6A23C" : "#2A9D8F"} />
+        <meshBasicMaterial color={isSelected ? "#FFD166" : "#4F8EF7"} />
       </mesh>
       
       {/* Glow ring */}
       <mesh ref={glowRef}>
         <ringGeometry args={[0.02, 0.035, 32]} />
         <meshBasicMaterial
-          color={isSelected ? "#E6A23C" : "#2A9D8F"}
+          color={isSelected ? "#FFD166" : "#4F8EF7"}
           transparent
           opacity={0.6}
           side={THREE.DoubleSide}
@@ -80,7 +80,7 @@ function Atmosphere() {
         transparent
         side={THREE.BackSide}
         uniforms={{
-          glowColor: { value: new THREE.Color("#2A9D8F") },
+          glowColor: { value: new THREE.Color("#4F8EF7") },
         }}
         vertexShader={`
           varying vec3 vNormal;
